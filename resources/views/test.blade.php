@@ -23,7 +23,7 @@
         <div class="col l4 m6 s12">
             <div class="card hoverable">
                 <div class="card-image">
-                    <img src="{{ asset('img/users/yo.jpg') }}">
+                    <img src="{{ asset('img/users/user-man.png') }}">
                     <span class="card-title" style="padding-top: 30px;font-size: 1em;width: 100%; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5), rgba(0,0,0,0.7));">
                         <b>Daniel Alfonso Jiménez Suárez</b><br>
                         <span>Ing.Sistemas Computacionales <br> Residencia</span>
