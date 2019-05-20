@@ -16,13 +16,13 @@
 </head>
 
 <body>
-    <header class="navbar-fixed">
+    <header>
         {{-- NAVBAR --}}
         <nav class="white">
             <div class="container">
                 <div class="nav-wrapper">
                     <a href="#!" class="brand-logo"><img class="responsive-img" style="max-height: 60px;" src="{{ asset('logo.svg') }}" alt="Logo NCIE"></a>
-                    <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+                    <a href="#" data-target="slide-out" class="sidenav-trigger">
                         <i class="material-icons black-text text-black">menu</i>
                     </a>
                     <ul class="right hide-on-med-and-down">
@@ -40,7 +40,7 @@
         </nav>
         {{-- END NAVBAR --}}
         {{-- SIDEBAR --}}
-        <ul class="sidenav sidenav-fixed hide-on-large-only" id="mobile-demo">
+        <ul class="sidenav sidenav-fixed hide-on-large-only" id="slide-out">
             <li><a href="#">Usuarios</a></li>
             <li><a href="#">Prestamos</a></li>
             <li><a href="#">Cubículos</a></li>
@@ -62,16 +62,16 @@
 
     {{-- SCRIPTS --}}
     <!--JavaScript at end of body for optimized loading-->
-    @yield('scripts')
     <script src="{{ asset('/js/jquery-3.3.1.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('/js/materialize.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('/js/material-dialog.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('/js/axios.min.js') }}"></script>
     <script src="{{ asset('/js/tippy.min.js') }}"></script>
+    @yield('scripts')
     <script>
-    M.AutoInit();
-    $(document).ready(function(){
-        $('.sidenav').sidenav();
+        M.AutoInit();
+        $(document).ready(function(){
+            $('.sidenav').sidenav();
     });
     </script>
     {{-- END SCRIPTS --}}

@@ -18,7 +18,7 @@
     </div>
     {{-- END SEARCH BAR --}}
     @php
-  $array = ["uno","dos","tres"] ;      
+  $array = ["uno"] ;      
     @endphp
     <div class="row">        
         @for ( $i=0 ; $i < sizeof($array); $i++)            
