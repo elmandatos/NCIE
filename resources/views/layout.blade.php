@@ -18,29 +18,33 @@
 <body>
     <header>
         {{-- NAVBAR --}}
-        <nav class="white">
-            <div class="container">
-                <div class="nav-wrapper">
-                    <a href="#!" class="brand-logo"><img class="responsive-img" style="max-height: 60px;" src="{{ asset('logo.svg') }}" alt="Logo NCIE"></a>
-                    <a href="#" data-target="slide-out" class="sidenav-trigger">
-                        <i class="material-icons black-text text-black">menu</i>
-                    </a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a class="black-text text-black" href="#">Usuarios</a></li>
-                        <li><a class="black-text text-black" href="#">Prestamos</a></li>
-                        <li><a class="black-text text-black" href="#">Cubículos</a></li>
-                        @auth
-                        <li><a class="black-text text-black" href="#">Almacén</a></li>
-                        <li><a class="black-text text-black" href="#">Cerrar Sesión</a></li>
-                        @endauth
-                        <li><a class="black-text text-black" href="#">Iniciar Sesión</a></li>
-                    </ul>
+        <div class="navbar-fixed">
+            <nav class="white">
+                <div class="container">
+                    <div class="nav-wrapper">
+                        <a href="#!" class="brand-logo"><img class="responsive-img" style="max-height: 60px;" src="{{ asset('logo.svg') }}" alt="Logo NCIE"></a>
+                        <a href="#" data-target="slide-out" class="sidenav-trigger">
+                            <i class="material-icons black-text text-black">menu</i>
+                        </a>
+                        <ul class="right hide-on-med-and-down">
+                            <li><a class="black-text text-black" href="#">Leer QR</a></li>
+                            <li><a class="black-text text-black" href="{{ route("users.index") }}">Usuarios</a></li>
+                            <li><a class="black-text text-black" href="#">Prestamos</a></li>
+                            <li><a class="black-text text-black" href="#">Cubículos</a></li>
+                            @auth
+                            <li><a class="black-text text-black" href="#">Almacén</a></li>
+                            <li><a class="black-text text-black" href="">Cerrar Sesión</a></li>
+                            @endauth
+                            <li><a class="black-text text-black" href="#">Iniciar Sesión</a></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </div>
         {{-- END NAVBAR --}}
         {{-- SIDEBAR --}}
         <ul class="sidenav sidenav-fixed hide-on-large-only" id="slide-out">
+            <li><a href="#">Leer QR</a></li>
             <li><a href="#">Usuarios</a></li>
             <li><a href="#">Prestamos</a></li>
             <li><a href="#">Cubículos</a></li>

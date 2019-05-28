@@ -1,9 +1,9 @@
 @extends('layout')
 @section('content')
 <style>
-    .card{
-        min-width: 220px;
-    }
+.card {
+    min-width: 220px;
+}
 </style>
 <div class="container">
     {{-- SEARCH BAR --}}
@@ -19,28 +19,29 @@
     {{-- END SEARCH BAR --}}
 
     <div class="row">
-        @foreach ($users as $user )
-            {{-- EVITA DESPLEGAR USER ADMIN --}}
-            @if ($user["nombres"] == "ADMIN")
-                @continue
-            @endif
-
+        <form action="{{ route("users.destroy",$user["id"]) }}">
+            @csrf
+            @method("DELETE")
             {{-- USER CARD DEFAULT--}}
-            <div class="col l4 m6 s12">
+            <div class="col s12 m4 l4 push-m4 push-l4">
                 <div class="card hoverable">
                     <div class="card-image">
                         <img src="{{ asset('img/users/'.$user["foto"]) }}" class="materialboxed">
-                        <span class="card-title" style="padding-top: 30px;font-size: 1em;width: 100%; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5), rgba(0,0,0,0.7));">
+                        <span class="card-title"
+                            style="padding-top: 30px;font-size: 1em;width: 100%; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5), rgba(0,0,0,0.7));">
                             <b>{{ $user["nombres"] }} {{ $user["apellidos"] }}</b><br>
                             <span>{{ ucwords($user["carrera"]) }}<br>{{ ucwords($user["rol"]) }}</span>
                         </span>
-                        <a class="btn-floating halfway-fab waves-effect waves-light amber" href="{{ route("users.edit",$user["id"]) }}">
+                        <a class="btn-floating halfway-fab waves-effect waves-light amber"
+                            href='{{ route("users.edit",$user["id"]) }}'>
                             <i class="tiny material-icons">edit</i>
                         </a>
                         <a style="right: -15px;" class="btn-floating halfway-fab waves-effect waves-light blue">
                             <i class="fas fa-qrcode "></i>
                         </a>
-                        <a style="right: -15px;top:-15px;" class="btn-floating halfway-fab waves-effect waves-light red">
+
+                        <a type="submit" style="right: -15px;top:-15px;"
+                            class="btn-floating halfway-fab waves-effect waves-light red">
                             <i class="material-icons">delete</i>
                         </a>
                     </div>
@@ -63,7 +64,7 @@
                 </div>
             </div>
             {{-- END USER CARD --}}
-        @endforeach
+        </form>
     </div>
 </div>
 @endsection

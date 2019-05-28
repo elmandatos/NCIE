@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Http\Requests\UsersRequest;
+ use App\User;
 class UsersController extends Controller
 {
     /**
@@ -13,7 +14,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view("users.index");
+        $users = User::all();
+        return view("users.index")->with("users",$users);
     }
 
     /**
@@ -32,20 +34,13 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UsersRequest $request)
     {  
-        $this->validate($request,[
-            "nombres" => "required",
-            "apellidos" => "required",
-            "sexo" => "required",
-            "telefono" => "required",
-            "email" => "required",
-            "matricula" => "required",
-            "carrera" => "required",
-            "rol" => "required",
-            "tipo_de_usuario" => "required",
-        ]);
-        $request->all();
+        $data = $this->validateStoreInputs($request->all());
+        //GENERAMOS LA FOTO DEL USUARIO Y OBTENEMOS EL NOMBRE DEL ARCHIVO
+        $data["foto"] = $this->createPicture($data["email"],$data["foto"],$data["sexo"]);
+        User::create($data);//GUARDAMOS INFORMACIÓN DEL NUEVO USUARIO EN LA BASE DE DATOS
+        return redirect()->route("users.index");
     }
 
     /**
@@ -56,7 +51,8 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        return view("users.show");
+        $user = User::findOrFail($id);
+        return view("users.show")->with("user",$user);
     }
 
     /**
@@ -67,7 +63,8 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        return view("users.edit");
+        $user = User::findOrFail($id);
+        return view("users.edit")->with("user",$user);
     }
 
     /**
@@ -77,9 +74,16 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UsersRequest $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+     
+        $data = $this->validateStoreInputs($request->all());
+        //GENERAMOS LA FOTO DEL USUARIO Y OBTENEMOS EL NOMBRE DEL ARCHIVO
+        $data["foto"] = $this->createPicture($data["email"],$data["foto"],$data["sexo"]);
+
+        $user -> update($data);
+        return redirect()->route("users.index"); 
     }
 
     /**
@@ -90,6 +94,52 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::destroy($id);
     }
+
+    
+    private function createPicture($email, $foto, $sexo){
+        $pathFile = "";
+        define('UPLOAD_DIR', '../public/img/users/'); //definimos la ruta donde guardaremos la foto
+        //SI NO SE HA TOMADO FOTO SE ELIGE LA FOTO POR DEFECTO
+        if(!$foto){
+            if($sexo == "mujer")
+                $pathFile = "user-woman.png";
+            if($sexo == "hombre")
+                $pathFile = "user-man.png";
+        }
+        elseif($foto == $email ."png"){
+
+            $pathFile = $email . "png";
+        }
+        else{
+
+            $picture = base64_decode($foto);   //Decodificamos la foto
+            $pathFile = $email . '.png'; //Generamos la ruta completa del archivo
+            file_put_contents(UPLOAD_DIR . $email . '.png', $picture); //Creamos la foto en el servidor
+        }
+         return $pathFile;
+    }
+
+    private function validateStoreInputs($inputs){
+        // CONSISTENCIA DE DATOS EN LA BD
+        $data = $inputs;
+        $validatedData;
+        foreach ($data as $key => $value) { 
+            if($key == "password")
+                $validatedData[$key] = bcrypt($value);
+            if($key == "_token" || $key == "email")
+                $validatedData[$key] = $value;
+            elseif($key == "nombres" || $key == "apellidos")
+                $validatedData[$key] = ucwords($value);
+            elseif($key == "foto")
+                $validatedData[$key] = $value;
+            elseif($key == "matricula" && $value == "")
+                $value == NULL;
+            else
+                $validatedData[$key] = mb_strtolower($value);
+        }
+        return $validatedData;
+    }
+
 }
