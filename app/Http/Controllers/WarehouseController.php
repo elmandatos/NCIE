@@ -107,7 +107,9 @@ class WarehouseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $articulo = Warehouse::find($id);
+        $articulo->delete();
+        return redirect()->route("warehouse.index");
     }
 
 
