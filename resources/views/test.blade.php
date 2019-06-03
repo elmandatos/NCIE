@@ -1,7 +1,7 @@
 @extends('layout')
 @section('content')
 <style>
-    .card{
+    .card {
         min-width: 220px;
     }
 </style>
