@@ -29,15 +29,23 @@
                 <b>{{$articulo->nombre}}</b><br>
                 <span>{{$articulo->modelo}}<br> {{$articulo->descripcion}}</span>
                 </span>
+                {{-- EDIT BUTTON --}}
                 <a href="/warehouse/{{$articulo->id}}/edit" class="btn-floating halfway-fab waves-effect waves-light amber">
                     <i class="material-icons">edit</i>
                 </a>
+                {{-- CREATE BUTTON --}}
                 <a href="{{ route('warehouse.create') }}"style="right: -15px;" class="btn-floating halfway-fab waves-effect waves-light blue">
                     <i class="fas fa-qrcode"></i>
                 </a>
-                <a style="right: -15px;top:-15px;" class="btn-floating halfway-fab waves-effect waves-light red">
-                    <i class="material-icons">delete</i>
-                </a>
+                {{-- DELETE BUTTON --}}
+                <div>     
+                    {{ Form::open(['route' => ['warehouse.destroy', $articulo->id], 'method' => 'delete']) }}
+                        <button style="right: -15px;top:-15px;" class="btn-floating halfway-fab waves-effect waves-light red">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    {{ Form::close() }}
+                </div>
+                
             </div>
             <div class="card-content">
                 <div>
