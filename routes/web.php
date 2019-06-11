@@ -17,6 +17,11 @@ Route::view('/', 'test');
 Route::resource("qr", "QRController");
 // Users routes
 Route::resource("users", "UsersController");
+
+//Hours Routes
+Route::get('/user/{id}/get_in',"HoursController@get_in")->name("entrada");
+Route::get('/user/{id}/get_out',"HoursController@get_out")->name("salida");
+
 // Import Excel Routes
 Route::get('/import', 'UserData@index')->name("usersData.index");
 Route::post('/import', 'UserData@importUsers')->name("usersData.import");

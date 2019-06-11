@@ -71,8 +71,8 @@
                                 <i class="material-icons small grey-text text-grey">phone</i>
                             </a>
                         </div>
-                        <a href="#!" class="btn">ENTRAR</a>
-                        <a href="#!" class="btn red">SALIR</a>
+                        <a href="{{ route("entrada", $user["id"]) }}" class="btn">ENTRAR</a>
+                        <a href="{{ route("salida", $user["id"]) }}" class="btn red">SALIR</a>
                     </div>
                 </div>
             </div>
