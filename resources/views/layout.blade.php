@@ -28,7 +28,7 @@
                     </a>
                     <ul class="right hide-on-med-and-down">
                         <li><a class="black-text text-black" href="#">Usuarios</a></li>
-                        <li><a class="black-text text-black" href="#">Prestamos</a></li>
+                        <li><a href="{{ route('booking_articles.index') }}" class="black-text text-black" href="#">Prestamos</a></li>
                         <li><a class="black-text text-black" href="#">Cubículos</a></li>
                         @auth
                         <li><a class="black-text text-black" href="#">Almacén</a></li>
