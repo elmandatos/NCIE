@@ -37,11 +37,10 @@ class UsersController extends Controller
     public function store(UsersRequest $request)
     {  
         $data = $this->validateStoreInputs($request->all());
-        var_dump($data);
-        // //GENERAMOS LA FOTO DEL USUARIO Y OBTENEMOS EL NOMBRE DEL ARCHIVO
-        // $data["foto"] = $this->createPicture($data["email"],$data["foto"],$data["sexo"]);
-        // User::create($data);//GUARDAMOS INFORMACIÓN DEL NUEVO USUARIO EN LA BASE DE DATOS
-        // return redirect()->route("users.index");
+        //GENERAMOS LA FOTO DEL USUARIO Y OBTENEMOS EL NOMBRE DEL ARCHIVO
+        $data["foto"] = $this->createPicture($data["email"],$data["foto"],$data["sexo"]);
+        User::create($data);//GUARDAMOS INFORMACIÓN DEL NUEVO USUARIO EN LA BASE DE DATOS
+        return redirect()->route("users.index");
     }
 
     /**
