@@ -37,10 +37,11 @@ class UsersController extends Controller
     public function store(UsersRequest $request)
     {  
         $data = $this->validateStoreInputs($request->all());
-        //GENERAMOS LA FOTO DEL USUARIO Y OBTENEMOS EL NOMBRE DEL ARCHIVO
-        $data["foto"] = $this->createPicture($data["email"],$data["foto"],$data["sexo"]);
-        User::create($data);//GUARDAMOS INFORMACIÓN DEL NUEVO USUARIO EN LA BASE DE DATOS
-        return redirect()->route("users.index");
+        var_dump($data);
+        // //GENERAMOS LA FOTO DEL USUARIO Y OBTENEMOS EL NOMBRE DEL ARCHIVO
+        // $data["foto"] = $this->createPicture($data["email"],$data["foto"],$data["sexo"]);
+        // User::create($data);//GUARDAMOS INFORMACIÓN DEL NUEVO USUARIO EN LA BASE DE DATOS
+        // return redirect()->route("users.index");
     }
 
     /**
@@ -127,9 +128,9 @@ class UsersController extends Controller
         $data = $inputs;
         $validatedData;
         foreach ($data as $key => $value) { 
-            if($key == "password")
+            if($key ==  "password")
                 $validatedData[$key] = bcrypt($value);
-            if($key == "_token" || $key == "email")
+            elseif($key == "_token" || $key == "email")
                 $validatedData[$key] = $value;
             elseif($key == "nombres" || $key == "apellidos")
                 $validatedData[$key] = ucwords($value);
