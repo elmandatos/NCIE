@@ -14,7 +14,7 @@
 
             <div class="col s12 m6 l6">
                 <label>Foto actual</label><br>
-                <img class="col s12 m12 l12" id="img-default" src="{{asset('img/warehouse/'.$articulo->foto)}}">
+                <img class="col s12 m12 l12" id="img-default" src="{{asset('img/warehouse/'.$articulo->foto)}}" style="background-color:#fff">
             </div>
         </div>
         

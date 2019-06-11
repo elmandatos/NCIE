@@ -18,6 +18,14 @@
     </div>
     {{-- END SEARCH BAR --}}
 
+    {{-- ACTION BUTTON --}}
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red" href="{{ route("users.create") }}">
+            <i class="large material-icons">person_add</i>
+        </a>
+    </div>
+    {{-- END ACTION BUTTON --}}
+
     <div class="row">
         @foreach ($users as $user )
             {{-- EVITA DESPLEGAR USER ADMIN --}}
@@ -40,9 +48,15 @@
                         <a style="right: -15px;" class="btn-floating halfway-fab waves-effect waves-light blue">
                             <i class="fas fa-qrcode "></i>
                         </a>
-                        <a style="right: -15px;top:-15px;" class="btn-floating halfway-fab waves-effect waves-light red">
-                            <i class="material-icons">delete</i>
-                        </a>
+                        {{-- DELETE BUTTON --}}
+                        <div>
+                            {{ Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']) }}
+                            <button style="right: -15px;top:-15px;" class="btn-floating halfway-fab waves-effect waves-light red">
+                                <i class="material-icons">delete</i>
+                            </button>
+                            {{ Form::close() }}
+                        </div>
+                        {{-- END DELETE BUTTON --}} 
                     </div>
                     <div class="card-content">
                         <div>

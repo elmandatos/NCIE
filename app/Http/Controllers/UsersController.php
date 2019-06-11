@@ -85,7 +85,7 @@ class UsersController extends Controller
         $user -> update($data);
         return redirect()->route("users.index"); 
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -95,6 +95,7 @@ class UsersController extends Controller
     public function destroy($id)
     {
         User::destroy($id);
+        return redirect()->route("users.index"); 
     }
 
     
@@ -104,21 +105,21 @@ class UsersController extends Controller
         //SI NO SE HA TOMADO FOTO SE ELIGE LA FOTO POR DEFECTO
         if(!$foto){
             if($sexo == "mujer")
-                $pathFile = "user-woman.png";
+                $fileName = "user-woman.png";
             if($sexo == "hombre")
-                $pathFile = "user-man.png";
+                $fileName = "user-man.png";
         }
         elseif($foto == $email ."png"){
 
-            $pathFile = $email . "png";
+            $fileName = $email . "png";
         }
         else{
 
             $picture = base64_decode($foto);   //Decodificamos la foto
-            $pathFile = $email . '.png'; //Generamos la ruta completa del archivo
-            file_put_contents(UPLOAD_DIR . $email . '.png', $picture); //Creamos la foto en el servidor
+            $fileName = $email . '.png'; //Generamos la ruta completa del archivo
+            file_put_contents(UPLOAD_DIR .$fileName, $picture); //Creamos la foto en el servidor
         }
-         return $pathFile;
+         return $fileName;
     }
 
     private function validateStoreInputs($inputs){

@@ -33,10 +33,12 @@
                             <li><a class="black-text text-black" href="#">Prestamos</a></li>
                             <li><a class="black-text text-black" href="#">Cubículos</a></li>
                             @auth
-                            <li><a class="black-text text-black" href="#">Almacén</a></li>
-                            <li><a class="black-text text-black" href="">Cerrar Sesión</a></li>
+                            <li><a class="black-text text-black" href="{{ route("warehouse.index") }}">Almacén</a></li>
+                            <li><a class="black-text text-black" href="{{ route("logout") }}">Cerrar Sesión</a></li>
                             @endauth
-                            <li><a class="black-text text-black" href="#">Iniciar Sesión</a></li>
+                            @guest
+                            <li><a class="black-text text-black" href="{{ route("login") }}">Iniciar Sesión</a></li>
+                            @endguest
                         </ul>
                     </div>
                 </div>
@@ -46,8 +48,8 @@
         {{-- SIDEBAR --}}
         <ul class="sidenav sidenav-fixed hide-on-large-only" id="slide-out">
             <li><a href="#">Leer QR</a></li>
-            <li><a href="#">Usuarios</a></li>
-            <li><a href="#">Prestamos</a></li>
+            <li><a href="{{ route("users.index") }}">Usuarios</a></li>
+            <li><a href="{{ route("warehouse.index") }}">Prestamos</a></li>
             <li><a href="#">Cubículos</a></li>
             @auth
             <li><a href="#">Almacén</a></li>

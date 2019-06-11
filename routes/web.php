@@ -21,8 +21,8 @@ Route::resource("users", "UsersController");
 Route::get('/import', 'UserData@index')->name("usersData.index");
 Route::post('/import', 'UserData@importUsers')->name("usersData.import");
 // Authentication Routes
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\LoginController@login');
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('loginForm');
+Route::post('login', 'Auth\LoginController@login')->name("login");
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 // Password Reset Routes
 Route::get('password/reset/', 'Auth\ResetPasswordController@showResetForm')->name('showResetForm');

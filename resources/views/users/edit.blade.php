@@ -16,7 +16,7 @@
         
             <div class="col s12 m6 l6">
                 <label>Foto actual</label><br>
-                <img class="col s12 m12 l12" id="img-default" src="{{asset("img/users/user-man.png")}}">
+                <img class="col s12 m12 l12" id="img-default" src="{{asset("img/users/".$user["foto"])}}">
             </div>
         </div>
         <form action="{{ route('users.update',$user["id"]) }}"  method="post">

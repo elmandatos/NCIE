@@ -17,14 +17,20 @@
       </form>
   </div>
   {{-- END SEARCH BAR --}}
-  
+  {{-- ACTION BUTTON --}}
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red" href="{{ route("warehouse.create") }}">
+            <i class="large material-icons">add</i>
+        </a>
+    </div>
+    {{-- END ACTION BUTTON --}}
   <div class="row">
       {{-- PIECE OF WAREHOUSE CARD DEFAULT--}}
       @foreach($articulos as $articulo)
       <div class="col l4 m6 s12">
         <div class="card hoverable">
             <div class="card-image">
-                <img src="{{asset('img/warehouse/'.$articulo->foto)}}">
+                <img src="{{asset('img/warehouse/'.$articulo->foto)}}" style="background-color:#fff;">
                 <span class="card-title" style="padding-top: 30px;font-size: 1em;width: 100%; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5), rgba(0,0,0,0.7));">
                 <b>{{$articulo->nombre}}</b><br>
                 <span>{{$articulo->modelo}}<br> {{$articulo->descripcion}}</span>
@@ -32,10 +38,6 @@
                 {{-- EDIT BUTTON --}}
                 <a href="/warehouse/{{$articulo->id}}/edit" class="btn-floating halfway-fab waves-effect waves-light amber">
                     <i class="material-icons">edit</i>
-                </a>
-                {{-- CREATE BUTTON --}}
-                <a href="{{ route('warehouse.create') }}"style="right: -15px;" class="btn-floating halfway-fab waves-effect waves-light blue">
-                    <i class="fas fa-qrcode"></i>
                 </a>
                 {{-- DELETE BUTTON --}}
                 <div>     
@@ -45,7 +47,7 @@
                         </button>
                     {{ Form::close() }}
                 </div>
-                
+                {{-- END DELETE BUTTON --}}
             </div>
             <div class="card-content">
                 <div>

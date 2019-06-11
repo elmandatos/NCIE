@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Warehouse;
+use Carbon\Carbon;
+use App\Http\Requests\WarehouseRequest;
+use DB;
 
 class WarehouseController extends Controller
 {
@@ -34,16 +37,17 @@ class WarehouseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(WarehouseRequest $request)
     {
-        $articulo = new Warehouse;
-        if($request->foto===NULL){
-
-        }else {
-            $articulo->fill($request->all());
-            $articulo->foto = $this->createFile("articulo".time(), $request->foto);
-            $articulo->save();
-        }
+       $nextId = DB::table('warehouses')->max('id') + 1;
+       var_dump($nextId);
+       $articulo = $request->all();
+        if($articulo["foto"]===NULL)
+            $articulo["foto"] = "articule.png";
+        else
+            $articulo["foto"] = $this->createPicture($nextId, $request->foto);
+            Warehouse::create($articulo);
+            return redirect()->route("warehouse.index");
     }
 
     /**
@@ -54,7 +58,8 @@ class WarehouseController extends Controller
      */
     public function show($id)
     {
-        //
+        // $articulo = Warehouse::findOrFail($id);
+        // return view("warehouse.show")->with("user",$user);                             
     }
 
     /**
@@ -65,8 +70,8 @@ class WarehouseController extends Controller
      */
     public function edit($id)
     {
-        $articulo=Warehouse::find($id);
-        return view('warehouse.edit', compact('articulo'));
+        $articulo=Warehouse::findOrFail($id);
+        return view('warehouse.edit')->with("articulo",$articulo);
         //
     }
 
@@ -77,7 +82,7 @@ class WarehouseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(WarehouseRequest $request, $id)
     {
         // BUSCAR AL USUARIO EN LA BASE DE DATOS POR ID Y OBTENER LA FOTO ACTUAL
         $articulo = Warehouse::findOrFail($id);
@@ -87,15 +92,12 @@ class WarehouseController extends Controller
             // SI LA FOTO NO ES IGUAL(HUBO CAMBIO), PREPARAR LA CONSULTA
             $articulo->fill($request->all());
             // CONVERTIR LOS METADATOS A UNA FOTO PNG Y GUARDARLOS EN LA CONSULTA
-            $foto = str_ireplace(".png", "",$foto);
-            $articulo->foto = $this->createFile($foto, $request->foto);
-            // GUARDAR EN BD
-            $articulo->save();
+            $articulo->foto = $this->createPicture($articulo->id, $request->foto);
         }else {
             // SI ES IGUAL LA FOTO EN LA BD A LA FOTO EN LA REQUEST, PRERPARA CONSULTA Y GUARDAR EN BD
             $articulo->fill($request->all());
-            $articulo->save();
         }
+        $articulo->save();
        return redirect()->route("warehouse.index");
     }
 
@@ -107,8 +109,7 @@ class WarehouseController extends Controller
      */
     public function destroy($id)
     {
-        $articulo = Warehouse::find($id);
-        $articulo->delete();
+        Warehouse::destroy($id);
         return redirect()->route("warehouse.index");
     }
 
@@ -120,13 +121,12 @@ class WarehouseController extends Controller
      * @param  string $foto
      * @return string $foto
      */
-    public function createFile($nombre, $foto) {
+    public function createPicture($nombre, $foto) {
         define('UPLOAD_DIR', '../public/img/warehouse/'); //Obtenemos la ruta donde guardaremos la foto
-        $data = base64_decode($foto);   //Decodificamos la foto
-        $file = UPLOAD_DIR . $nombre . '.png'; //Generamos la ruta completa del archivo
-        $img = str_replace('../public/img/warerehouse/', '/', $file);   //Ruta Front-End
-        $success = file_put_contents($file, $data); //Creamos la foto en el servidor
-        $foto = $nombre.".png";
-        return $foto;
+        $picture = base64_decode($foto);   //Decodificamos la foto
+        $fileName = $nombre . '.png'; //Generamos la ruta completa del archivo
+  
+         file_put_contents(UPLOAD_DIR . $fileName, $picture); //Creamos la foto en el servidor
+        return $fileName;
     }
 }

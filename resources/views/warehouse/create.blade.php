@@ -14,7 +14,7 @@
 
             <div class="col s12 m6 l6">
                 <label>Foto actual</label><br>
-                <img class="col s12 m12 l12" id="img-default" src="{{asset('img/warehouse/articule.png')}}">
+                <img class="col s12 m12 l12" id="img-default" src="{{asset('img/warehouse/articule.png')}}"  style="background-color:#fff">
             </div>
         </div>
         
@@ -23,13 +23,13 @@
             <div class="col s12 m12 l12">
                 {{-- NOMBRE --}}
                 <div class="input-field col s12 l6">
-                    <input type="text" id="txtNombre" name="nombre" class="validate" ">
+                    <input type="text" id="txtNombre" name="nombre" class="validate" value="{{ old("nombre") }}">
                     <label for="txtNombre">Nombre*</label><br>
                     <span style="color:red">{{ $errors->first("nombre") }}</span>
                 </div>
                 {{-- MODELO --}}
                 <div class="input-field col s12 l6">
-                    <input type="text" id="txtModelo" name="modelo" class="validate">
+                    <input type="text" id="txtModelo" name="modelo" class="validate" value="{{ old("modelo") }}">
                     <label for="txtModelo">Modelo*</label><br>
                     <span style="color:red">{{ $errors->first("modelo") }}</span>
                 </div>
@@ -38,13 +38,13 @@
             <div class="col s12 m12 l12">
                 {{-- DESCRIPCION --}}
                 <div class="input-field col s12 l6">   
-                        <input type="text" id="txtDescripcion" name="descripcion" class="validate" >
+                        <input type="text" id="txtDescripcion" name="descripcion" class="validate" value="{{ old("descripcion") }}">
                         <label for="txtDescripcion">Descripción*</label>
                         <span style="color:red">{{ $errors->first("descripcion") }}</span>
                 </div>
                 {{-- CANTIDAD --}}
                 <div class="input-field col s12 l6">
-                    <input type="number" min="0" id="txtCantidad" name="cantidad" >
+                    <input type="number" min="0" id="txtCantidad" name="cantidad" value="{{ old("cantidad") }}">
                     <label for="txtCantidad">Cantidad:</label>
                     <span style="color:red">{{ $errors->first("cantidad") }}</span>
                 </div>
@@ -53,7 +53,7 @@
             <div class="col s12 m12 l12">        
                 {{-- ANAQUEL --}}
                 <div class="input-field col s12 l6">
-                    <input type="number" min="1" max="5" id="txtAnaquel" name="anaquel" >
+                    <input type="number" min="1" max="99" id="txtAnaquel" name="anaquel" value="{{ old("anaquel") }}">
 
                     <label for="txtAnaquel" data-error="wrong" data-success="right">Anaquel*</label><br>
                     <span style="color:red">{{ $errors->first("anaquel") }}</span>
