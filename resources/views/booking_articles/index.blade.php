@@ -3,15 +3,14 @@
 {{-- SEARCH BAR --}}
 <div class="container">
   <div class="row">
-    <form action="">
-        <div class="input-field col s10 l12">
-            <i class="material-icons tinny prefix">search</i>
-            <input type="text" id="first_name" class="validate">
-            <label for="first_name">Buscar</label>
-        </div>
-    </form>
+      <a href="{{ route('booking_articles.create') }}" class="waves-effect waves-light btn">Registrar Prestamo</a>
+      <a class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>button</a>
   </div>
     {{-- END SEARCH BAR --}}
+    @foreach($booking as $articulo)
+
+
+    @endforeach
   
 </div>
 

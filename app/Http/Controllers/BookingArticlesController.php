@@ -16,6 +16,7 @@ class BookingArticlesController extends Controller
     {
         $booking = BookingArticles::all();
         return view('booking_articles.index', compact('booking') );
+        
     }
 
     /**
@@ -25,7 +26,7 @@ class BookingArticlesController extends Controller
      */
     public function create()
     {
-        //
+        return view('booking_articles.create');
     }
 
     /**
