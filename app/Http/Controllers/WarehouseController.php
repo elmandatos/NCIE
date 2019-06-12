@@ -18,6 +18,11 @@ class WarehouseController extends Controller
         return view('warehouse.index', compact('articulos') );
     }
 
+    public function indexApi(){
+        $articulos = Warehouse::all();
+        return response()->json($articulos, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -38,12 +43,16 @@ class WarehouseController extends Controller
     {
         $articulo = new Warehouse;
         if($request->foto===NULL){
-
+            $articulo->fill($request->all());
+            $articulo->foto = "articule.png";
+            $articulo->save();
         }else {
             $articulo->fill($request->all());
             $articulo->foto = $this->createFile("articulo".time(), $request->foto);
             $articulo->save();
         }
+        //return redirect()->route("warehouse.index");
+
     }
 
     /**
