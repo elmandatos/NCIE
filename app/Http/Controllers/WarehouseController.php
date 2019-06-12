@@ -51,7 +51,7 @@ class WarehouseController extends Controller
             $articulo->foto = $this->createFile("articulo".time(), $request->foto);
             $articulo->save();
         }
-        //return redirect()->route("warehouse.index");
+        return redirect()->route("warehouse.index");
 
     }
 
