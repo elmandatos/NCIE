@@ -1,22 +1,21 @@
 @extends('layout')
 @section('content')
 <div class="container">
-    <div class="row">
-        {{-- FOTO Y CÁMARA --}}
-        <div class="row center-align">
-            <div class="col s12 m6 l6 center-align">
-                <label>Camara</label><br>
-                <video id="videoElement" class="col s12 m12 l12" autoplay="true"  width="550" height="550" style="display:none"></video>
-                <canvas id="canvas" class="col s12 m12 l12" width="550" height="550">
-                </canvas>
-                <button class="btn" id="capturar" style="margin-top:10px;">Capturar<i class="material-icons right">photo_camera</i></button>
-            </div>
-
-            <div class="col s12 m6 l6">
-                <label>Foto actual</label><br>
-                <img class="col s12 m12 l12" id="img-default" src="{{asset('img/warehouse/articule.png')}}">
-            </div>
+{{-- SEARCH BAR --}}
+<div class="row">
+    <form action="">
+        <div class="input-field col s10 l12">
+            <i class="material-icons tinny prefix">search</i>
+            <input type="text" id="first_name" class="validate">
+            <label for="first_name">Buscar</label>
         </div>
+    </form>
+</div>
+        {{-- END SEARCH BAR --}}
+<div class="container">
+
+    <div class="row">
+        
         
         <form action="{{ route('warehouse.store') }}"  method="post">
             {!!csrf_field()!!}            
@@ -69,8 +68,4 @@
         </form>
     </div>
 </div>
-@endsection
-@section("scripts")
-  @extends('scripts/p5')
-  <script src="{{asset('/js/webcam.js')}}" type="text/javascript"></script>
 @endsection

@@ -18,6 +18,11 @@ class WarehouseController extends Controller
         return view('warehouse.index', compact('articulos') );
     }
 
+    public function indexApi(){
+        $articulos = Warehouse::all();
+        return response()->json($articulos, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
