@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\UsersRequest;
- use App\User;
+use App\User;
+use App\Http\Controllers\HoursController;
 class UsersController extends Controller
 {
     /**
@@ -15,7 +16,8 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::all();
-        return view("users.index")->with("users",$users);
+        $hoursController = new HoursController();
+        return view("users.index")->with(["users"=>$users,"hoursController"=>$hoursController ]);
     }
 
     /**

@@ -32,7 +32,6 @@
             @if ($user["nombres"] == "ADMIN")
                 @continue
             @endif
-
             {{-- USER CARD DEFAULT--}}
             <div class="col l4 m6 s12">
                 <div class="card hoverable">
@@ -62,7 +61,7 @@
                         <div>
                             <label style="display: flex; aling-content:center;">
                                 <i class="material-icons small">access_time</i>
-                                <span style="font-size: 1.4em;">&nbsp;700:50</span>
+                                <span style="font-size: 1.4em;">&nbsp;{{ $hoursController->get_total_hours($user["id"]) }}</span>
                             </label>
                             <a class="tooltipped" data-position="top" data-tooltip="{{ $user["email"] }}">
                                 <i class="material-icons small grey-text text-grey">mail</i>

@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
             'apellidos' => 'NCIE',
             'sexo' => 'NONE',
             'telefono' => 'NONE',
-            'email' => 'NONE@gmail.com',
+            'email' => 'none@gmail.com',
             'matricula' => 'NONE',
             'carrera' => 'NONE',
             'rol' => 'ROOT',

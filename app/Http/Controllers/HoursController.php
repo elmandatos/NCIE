@@ -9,17 +9,18 @@ use Illuminate\ Http\Request;
 class HoursController extends Controller
 {
     public function get_in($id){
-        $lastGetIn = $this->get_last_get_in($id);
-        $currentDate = Carbon::now()->toDateString(); 
-        $store_get_id = $this->validate_get_in($lastGetIn,$currentDate);
-        if($store_get_id){
-              DB::table("hours")->insert([
-                  "user_id" => $id,
-                  "fecha" => Carbon::now()->toDateString(),
-                  "hora_entrada" => Carbon::now()->toTimeString(),
-              ]);
+        $lastGetIn = $this->get_last_get_in($id); //Obtiene la ultima entrada del usuario
+        if(!$lastGetIn){
+            $currentDate = Carbon::now()->toDateString(); 
+            $store_get_id = $this->validate_get_in($lastGetIn,$currentDate);
+            if($store_get_id){
+                  DB::table("hours")->insert([
+                      "user_id" => $id,
+                      "fecha" => Carbon::now()->toDateString(),
+                      "hora_entrada" => Carbon::now()->toTimeString(),
+                  ]);
+            }
         }
-        // var_dump($store_get_id);
         return redirect()->route("users.index");
     }
 
@@ -54,11 +55,14 @@ class HoursController extends Controller
     private function get_last_get_in($idUser){
         $lastID = $this->get_last_id($idUser);
         $lastID = json_decode(json_encode($lastID[0]),true);
-        $last_get_in = DB::table("hours")->
-            where("hours_id",$lastID)->
-        get();
-        $last_get_in = json_decode(json_encode($last_get_in[0]),true);
-        return $last_get_in;
+        if($lastID["last_id"]){
+            $last_get_in = DB::table("hours")->
+                where("hours_id",$lastID)->
+            get();
+            return $last_get_in = json_decode(json_encode($last_get_in[0]),true);
+        }
+        else
+            return $last_get_in = false;
     }
 
     public function validate_get_in($lastGetIn, $currentDate){
@@ -74,5 +78,26 @@ class HoursController extends Controller
         $currentDate = Carbon::now()->toDateString(); 
         $showBtn = $this->validate_get_in($lastGetIn, $currentDate);
         return $showBtn;
+    }
+
+    public function get_total_hours($userId){
+        $user = DB::table("users")->where("id", $userId)->first();
+        $tiempoTotal = DB::table("hours")
+        ->select(DB::raw("SUM(TIME_TO_SEC(TIMEDIFF(hora_salida,hora_entrada))) as tiempo"))
+        ->where("user_id",$userId)
+        ->where("hora_salida","<>","NULL")
+        ->get();
+
+        $tiempoTotal = intval($tiempoTotal[0]->tiempo);
+
+        $horas = floor($tiempoTotal / 3600);
+        $minutos = floor(($tiempoTotal - ($horas * 3600)) / 60);
+        $segundos = $tiempoTotal - ($horas * 3600) - ($minutos * 60);
+        if($horas<10)
+            $horas = "0".$horas;
+        if($minutos<10)
+            $minutos = "0".$minutos;
+        $tiempoTotal = $horas . ':' . $minutos;
+        return $tiempoTotal;
     }
 }
