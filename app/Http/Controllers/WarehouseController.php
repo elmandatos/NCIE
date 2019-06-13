@@ -44,7 +44,6 @@ class WarehouseController extends Controller
      */
     public function store(WarehouseRequest $request)
     {
-<<<<<<< HEAD
        $nextId = DB::table('warehouses')->max('id') + 1;
        var_dump($nextId);
        $articulo = $request->all();
@@ -54,20 +53,6 @@ class WarehouseController extends Controller
             $articulo["foto"] = $this->createPicture($nextId, $request->foto);
             Warehouse::create($articulo);
             return redirect()->route("warehouse.index");
-=======
-        $articulo = new Warehouse;
-        if($request->foto===NULL){
-            $articulo->fill($request->all());
-            $articulo->foto = "articule.png";
-            $articulo->save();
-        }else {
-            $articulo->fill($request->all());
-            $articulo->foto = $this->createFile("articulo".time(), $request->foto);
-            $articulo->save();
-        }
-        return redirect()->route("warehouse.index");
-
->>>>>>> WarehouseModule
     }
 
     /**
