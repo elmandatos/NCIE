@@ -26,7 +26,7 @@
             <div class="col s12 m4 l4 push-m4 push-l4">
                 <div class="card hoverable">
                     <div class="card-image">
-                        <img src="{{ asset('img/users/'.$user["foto"]) }}" class="materialboxed">
+                        <img src="{{secure_asset('img/users/'.$user["foto"]) }}" class="materialboxed">
                         <span class="card-title"
                             style="padding-top: 30px;font-size: 1em;width: 100%; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5), rgba(0,0,0,0.7));">
                             <b>{{ $user["nombres"] }} {{ $user["apellidos"] }}</b><br>

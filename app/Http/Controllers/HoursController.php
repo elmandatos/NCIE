@@ -10,7 +10,7 @@ class HoursController extends Controller
 {
     public function get_in($id){
         $lastGetIn = $this->get_last_get_in($id); //Obtiene la ultima entrada del usuario
-        if(!$lastGetIn){
+        if($lastGetIn != false){
             $currentDate = Carbon::now()->toDateString(); 
             $store_get_id = $this->validate_get_in($lastGetIn,$currentDate);
             if($store_get_id){
