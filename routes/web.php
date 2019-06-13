@@ -36,5 +36,8 @@ Route::post('password/reset/', 'Auth\ResetPasswordController@resetPassword')->na
 Route::resource("warehouse", "WarehouseController");
 // Lending routes
 Route::resource("lendings", "LendingsController");
-// Lending routes
+// Booking Articles routes
+Route::resource("booking_articles", "BookingArticlesController");
+
+// Cubicules
 Route::resource("cubicules", "CubiculesController");

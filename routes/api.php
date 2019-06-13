@@ -18,8 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Route::post('login', 'LoginController@login');
 
 =======
 Route::get('articles', 'WarehouseController@indexApi');
 >>>>>>> WarehouseModule
+=======
+Route::get('articles','WarehouseController@indexApi');
+>>>>>>> Prestamos

@@ -19,6 +19,7 @@
 <body>
     <header>
         {{-- NAVBAR --}}
+<<<<<<< HEAD
         <div class="navbar-fixed">
             <nav class="white">
                 <div class="container">
@@ -41,6 +42,25 @@
                             @endguest
                         </ul>
                     </div>
+=======
+        <nav class="white">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="#!" class="brand-logo"><img class="responsive-img" style="max-height: 60px;" src="{{ asset('logo.svg') }}" alt="Logo NCIE"></a>
+                    <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+                        <i class="material-icons black-text text-black">menu</i>
+                    </a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a class="black-text text-black" href="#">Usuarios</a></li>
+                        <li><a href="{{ route('booking_articles.index') }}" class="black-text text-black" href="#">Prestamos</a></li>
+                        <li><a class="black-text text-black" href="#">Cubículos</a></li>
+                        @auth
+                        <li><a class="black-text text-black" href="#">Almacén</a></li>
+                        <li><a class="black-text text-black" href="#">Cerrar Sesión</a></li>
+                        @endauth
+                        <li><a class="black-text text-black" href="#">Iniciar Sesión</a></li>
+                    </ul>
+>>>>>>> Prestamos
                 </div>
             </nav>
         </div>
