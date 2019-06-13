@@ -14,7 +14,7 @@
 
             <div class="col s12 m6 l6">
                 <label>Foto actual</label><br>
-                <img class="col s12 m12 l12" id="img-default" src="{{asset('img/warehouse/'.$articulo->foto)}}" style="background-color:#fff">
+                <img class="col s12 m12 l12" id="img-default" src="{{secure_asset('img/warehouse/'.$articulo->foto)}}" style="background-color:#fff">
             </div>
         </div>
         
@@ -72,5 +72,5 @@
 @endsection
 @section("scripts")
   @extends('scripts/p5')
-  <script src="{{asset('/js/webcam.js')}}" type="text/javascript"></script>
+  <script src="{{secure_asset('/js/webcam.js')}}" type="text/javascript"></script>
 @endsection

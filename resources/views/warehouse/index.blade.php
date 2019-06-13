@@ -30,7 +30,7 @@
       <div class="col l4 m6 s12">
         <div class="card hoverable">
             <div class="card-image">
-                <img src="{{asset('img/warehouse/'.$articulo->foto)}}" style="background-color:#fff;">
+                <img src="{{secure_asset('img/warehouse/'.$articulo->foto)}}" style="background-color:#fff;">
                 <span class="card-title" style="padding-top: 30px;font-size: 1em;width: 100%; background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5), rgba(0,0,0,0.7));">
                 <b>{{$articulo->nombre}}</b><br>
                 <span>{{$articulo->modelo}}<br> {{$articulo->descripcion}}</span>

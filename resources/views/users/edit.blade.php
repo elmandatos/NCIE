@@ -16,7 +16,7 @@
         
             <div class="col s12 m6 l6">
                 <label>Foto actual</label><br>
-                <img class="col s12 m12 l12" id="img-default" src="{{asset("img/users/".$user["foto"])}}">
+                <img class="col s12 m12 l12" id="img-default" src="{{secure_asset("img/users/".$user["foto"])}}">
             </div>
         </div>
         <form action="{{ route('users.update',$user["id"]) }}"  method="post">
@@ -164,13 +164,13 @@
     $("#sexo").click(function(e) {
         if(e.target.tagName == "INPUT"){
 
-            if( imgDefault.src == "{{ asset('img/users/user-woman.png') }}" ||
-                imgDefault.src == "{{ asset('img/users/user-man.png') }}" ){
+            if( imgDefault.src == "{{secure_asset('img/users/user-woman.png') }}" ||
+                imgDefault.src == "{{secure_asset('img/users/user-man.png') }}" ){
                     valorSexo = e.target.value;
                     if(valorSexo == "mujer")
-                        imgDefault.src = "{{ asset('img/users/user-woman.png') }}"
+                        imgDefault.src = "{{secure_asset('img/users/user-woman.png') }}"
                     else
-                        imgDefault.src = "{{asset('img/users/user-man.png')}}"
+                        imgDefault.src = "{{secure_asset('img/users/user-man.png')}}"
                 }
         }
     });
@@ -197,5 +197,5 @@
     });
 
 </script>
-<script src="{{ asset('js/capturePicture.js') }}"></script>
+<script src="{{secure_asset('js/capturePicture.js') }}"></script>
 @endsection
