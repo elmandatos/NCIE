@@ -32,6 +32,7 @@ class UsersRequest extends FormRequest
             "carrera" => "required",
             "rol" => "required",
             "tipo_de_usuario" => "required",
+            "password" => "confirmed",
         ];
     }
 }

@@ -38,6 +38,6 @@ Route::resource("warehouse", "WarehouseController");
 Route::resource("lendings", "LendingsController");
 // Booking Articles routes
 Route::resource("booking_articles", "BookingArticlesController");
-
+Route::resource("booking_cubicules", "BookingCubiculesController");
 // Cubicules
-Route::resource("cubicules", "CubiculesController");
+// Route::resource("cubicules", "CubiculesController");

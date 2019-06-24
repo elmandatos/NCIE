@@ -125,22 +125,24 @@
             <div class="input-field col s12 m12 l6">
                 <div><label>Tipo de usuario:</label></div>
                 <div class="center-align">
-                    <label><input name="tipo_de_usuario" type="radio" value="administrador" {{ old("tipo_de _usuario") == "administrador" ? "checked ='true '":""}}><span>Administrador</span></label>&nbsp;&nbsp;&nbsp;
-                    <label><input name="tipo_de_usuario" type="radio" value="asistente" {{ old("tipo_de _usuario") == "asistente" ? "checked ='true'":""}}><span>Asistente</span></label>&nbsp;&nbsp;&nbsp;
-                    <label><input name="tipo_de_usuario" type="radio" value="usuario" {{ old("tipo_de _usuario") == "usuario" ? "checked ='true'":""}}><span>Usuario</span></label><br>
+                    <label><input name="tipo_de_usuario" type="radio" value="administrador" {{ old("tipo_de_usuario") == "administrador" ? "checked ='true'" : ""}}><span>Administrador</span></label>&nbsp;&nbsp;&nbsp;
+                    <label><input name="tipo_de_usuario" type="radio" value="asistente" {{ old("tipo_de_usuario") == "asistente" ? "checked ='true'" : ""}}><span>Asistente</span></label>&nbsp;&nbsp;&nbsp;
+                    <label><input name="tipo_de_usuario" type="radio" value="usuario" {{ old("tipo_de_usuario") == "usuario" ? "checked ='true'" : ""}}><span>Usuario</span></label><br>
                     <span style="color:red">{{ $errors->first("tipo_de_usuario") }}</span>   
                 </div><br>
-
+            {{-- CONTRASEÑA --}}
             </div>
             <div class="col s12 m12 l6">
                 <div id="password-section" style = "display: none">
                     <div class="input-field col s12 l6 ">
                         <input type="password" id="password" name="password" class="validate">
                         <label for="password">Contraseña</label><br>
+                        <span style="color:red">{{ $errors->first("password") }}</span>
                     </div>
                     <div class="input-field col s12 l6 ">
                         <input type="password" id="password_confirmation" name="password_confirmation" class="validate">
                         <label for="password_confirmation">Confirmar contraseña</label><br>
+                        <span style="color:red">{{ $errors->first("password_confirmation") }}</span>
                     </div><br><br>
                 </div>
                 <div class="input-field col s12 l6 ">
@@ -179,6 +181,9 @@
     let radioBtnUserType = document.querySelectorAll("input[name='tipo_de_usuario']");
     let inputsPasswordSection = document.querySelectorAll("#password-section input[type='password']");
     radioBtnUserType.forEach(element => {
+
+        if(element.checked == true && element.value != "usuario") 
+        passwordSection.style.display = "block";
         element.addEventListener("click", e => {
             if(e.target.value == "usuario" || e.target.value == null){
                 inputsPasswordSection.forEach(input => {

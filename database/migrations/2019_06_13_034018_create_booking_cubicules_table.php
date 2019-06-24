@@ -14,6 +14,7 @@ class CreateBookingCubiculesTable extends Migration
     public function up()
     {
         Schema::create('booking_cubicules', function (Blueprint $table) {
+            $table->increments('id');
             $table->bigInteger('id_schedules')->unsigned();
             $table->bigInteger('id_cubicules')->unsigned();
             $table->integer('id_user')->unsigned();
