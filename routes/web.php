@@ -36,8 +36,14 @@ Route::post('password/reset/', 'Auth\ResetPasswordController@resetPassword')->na
 Route::resource("warehouse", "WarehouseController");
 // Lending routes
 Route::resource("lendings", "LendingsController");
+
 // Booking Articles routes
 Route::resource("booking_articles", "BookingArticlesController");
+Route::get("/booking_articles/create/{id}", "BookingArticlesController@createByUser")->name('createByUser');
+
 
 // Cubicules
 Route::resource("cubicules", "CubiculesController");
+Route::get('autocomplete', 'WarehouseController@searchArticulo');
+Route::post('search', 'WarehouseController@search');
+

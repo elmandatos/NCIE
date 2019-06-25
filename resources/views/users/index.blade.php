@@ -44,10 +44,15 @@
                         <a class="btn-floating halfway-fab waves-effect waves-light amber" href="{{ route("users.edit",$user["id"]) }}">
                             <i class="tiny material-icons">edit</i>
                         </a>
-                        <a style="right: -15px;" class="btn-floating halfway-fab waves-effect waves-light blue">
+                        <a style="right: -20px;" class="btn-floating halfway-fab waves-effect waves-light blue">
                             <i class="fas fa-qrcode "></i>
                         </a>
-                        {{-- DELETE BUTTON --}}
+                        <a style="right: +68px;" class="btn-floating halfway-fab waves-effect waves-light red" href="{{ route("createByUser",$user["id"]) }}">
+                            <i class="fas fa-cart-plus "></i>
+                        </a>
+                        
+
+                                                {{-- DELETE BUTTON --}}
                         <div>
                             {{ Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']) }}
                             <button style="right: -15px;top:-15px;" class="btn-floating halfway-fab waves-effect waves-light red">

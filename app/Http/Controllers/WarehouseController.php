@@ -44,7 +44,7 @@ class WarehouseController extends Controller
      */
     public function store(WarehouseRequest $request)
     {
-       $nextId = DB::table('warehouses')->max('id') + 1;
+       $nextId = DB::table('articles')->max('id') + 1;
        var_dump($nextId);
        $articulo = $request->all();
         if($articulo["foto"]===NULL)
@@ -133,5 +133,21 @@ class WarehouseController extends Controller
   
          file_put_contents(UPLOAD_DIR . $fileName, $picture); //Creamos la foto en el servidor
         return $fileName;
+    }
+
+    public function searchArticulo(Request $request)
+    {
+        $search = $request->get('articulo');
+
+        $result = Warehouse::all();
+        return response()->json($result);
+            
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('articulo');
+        $result = Warehouse::where('nombre', $search)->first();
+        return response()->json($result); 
     }
 }

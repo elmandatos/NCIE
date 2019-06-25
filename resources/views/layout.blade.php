@@ -71,7 +71,9 @@
 
     {{-- SCRIPTS --}}
     <!--JavaScript at end of body for optimized loading-->
+
     <script src="{{ asset('/js/jquery-3.3.1.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/js/typeahead.js') }}" type="text/javascript"></script>
     <script src="{{ asset('/js/materialize.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('/js/material-dialog.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('/js/axios.min.js') }}"></script>

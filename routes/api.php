@@ -20,3 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('login', 'LoginController@login');
 
 Route::get('articles','WarehouseController@indexApi');
+Route::get('autocomplete', 'WarehouseController@searchArticulo');
+Route::get('search', 'WarehouseController@search');
+
+// ROUTE BOOKING ARTICLES
+Route::post('booking_articles', 'BookingArticlesController@createByUserApi');
