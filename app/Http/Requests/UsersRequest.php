@@ -28,7 +28,7 @@ class UsersRequest extends FormRequest
             "apellidos" => "required",
             "sexo" => "required",
             "telefono" => "required",
-            "email" => "required",
+            "email" => "required|email",
             "carrera" => "required",
             "rol" => "required",
             "tipo_de_usuario" => "required",

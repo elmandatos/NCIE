@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UsersRequest;
 use App\User;
 use App\Http\Controllers\HoursController;
+use DB;
 class UsersController extends Controller
 {
     /**
@@ -54,7 +55,20 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view("users.show")->with("user",$user);
+        $hoursController = new HoursController();
+        return view("users.show")->with(["user"=>$user,"hoursController"=>$hoursController ]);
+    }
+    public function search(Request $request)
+    {
+        $query = $request->search;        
+        $users = DB::table('users')
+        ->where('nombres', 'LIKE', '%' . $query . '%')
+        ->orWhere('apellidos', 'LIKE', '%' . $query . '%')->get();
+        $hoursController = new HoursController();
+        $users = json_decode(json_encode($users),true);
+        // var_dump($users);
+
+        return view("users.index")->with(["users"=>$users,"hoursController"=>$hoursController ]);
     }
 
     /**

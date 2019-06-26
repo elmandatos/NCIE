@@ -15,8 +15,11 @@
 Route::view('/', 'test');
 // QR routes
 Route::resource("qr", "QRController");
+Route::get("/createQR/{id}","QRController@createAndSendQR")->name("createAndSendQR");
+Route::get("/sendAllQR","QRController@sendAllQR")->name("sendAllQR");
 // Users routes
 Route::resource("users", "UsersController");
+Route::get("/search","UsersController@search")->name("searchUser");
 
 //Hours Routes
 Route::get('/user/{id}/get_in',"HoursController@get_in")->name("entrada");

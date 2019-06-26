@@ -27,7 +27,7 @@
                         <i class="material-icons black-text text-black">menu</i>
                     </a>
                     <ul class="right hide-on-med-and-down">
-                        <li><a class="black-text text-black" href="">Leer QR</a></li>
+                        <li><a class="black-text text-black" href="{{ route("qr.index") }}">Leer QR</a></li>
                         <li><a class="black-text text-black" href="{{ route("users.index") }}">Usuarios</a></li>
                         <li><a href="{{ route('booking_articles.index') }}" class="black-text text-black" href="{{ route("booking_articles.index") }}">Prestamos</a></li>
                         <li><a class="black-text text-black" href="{{ route("booking_cubicules.index") }}">Cubículos</a></li>
