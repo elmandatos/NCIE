@@ -19,20 +19,19 @@
 <body>
     <header>
         {{-- NAVBAR --}}
-        <div class="navbar-fixed">
-            <nav class="white">
-                <div class="container">
-                    <div class="nav-wrapper">
-                        <a href="#!" class="brand-logo"><img class="responsive-img" style="max-height: 60px;" src="{{ asset('logo.svg') }}" alt="Logo NCIE"></a>
-                        <a href="#" data-target="slide-out" class="sidenav-trigger">
-                            <i class="material-icons black-text text-black">menu</i>
-                        </a>
-                        <ul class="right hide-on-med-and-down">
-                            <li><a class="black-text text-black" href="#">Leer QR</a></li>
-                            <li><a class="black-text text-black" href="{{ route("users.index") }}">Usuarios</a></li>
-                            <li><a class="black-text text-black" href="#">Prestamos</a></li>
-                            <li><a class="black-text text-black" href="#">Cubículos</a></li>
-                            @auth
+        <nav class="white">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="#!" class="brand-logo"><img class="responsive-img" style="max-height: 60px;" src="{{secure_asset('logo.svg') }}" alt="Logo NCIE"></a>
+                    <a href="#" data-target="slide-out" class="sidenav-trigger">
+                        <i class="material-icons black-text text-black">menu</i>
+                    </a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a class="black-text text-black" href="{{ route("qr.index") }}">Leer QR</a></li>
+                        <li><a class="black-text text-black" href="{{ route("users.index") }}">Usuarios</a></li>
+                        <li><a href="{{ route('booking_articles.index') }}" class="black-text text-black" href="{{ route("booking_articles.index") }}">Prestamos</a></li>
+                        <li><a class="black-text text-black" href="{{ route("booking_cubicules.index") }}">Cubículos</a></li>
+                        @auth
                             <li><a class="black-text text-black" href="{{ route("warehouse.index") }}">Almacén</a></li>
                             <li><a class="black-text text-black" href="{{ route("logout") }}">Cerrar Sesión</a></li>
                             @endauth

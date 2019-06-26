@@ -15,8 +15,11 @@
 Route::view('/', 'test');
 // QR routes
 Route::resource("qr", "QRController");
+Route::get("/createQR/{id}","QRController@createAndSendQR")->name("createAndSendQR");
+Route::get("/sendAllQR","QRController@sendAllQR")->name("sendAllQR");
 // Users routes
 Route::resource("users", "UsersController");
+Route::get("/search","UsersController@search")->name("searchUser");
 
 //Hours Routes
 Route::get('/user/{id}/get_in',"HoursController@get_in")->name("entrada");
@@ -43,8 +46,11 @@ Route::get("/booking_articles/create/{id}", "BookingArticlesController@createByU
 Route::get("/booking_articles/devolver/{id}", "BookingArticlesController@updateAll")->name('updateAll');
 
 
+Route::resource("booking_cubicules", "BookingCubiculesController");
 // Cubicules
 Route::resource("cubicules", "CubiculesController");
 Route::get('autocomplete', 'WarehouseController@searchArticulo');
 Route::post('search', 'WarehouseController@search');
 
+
+// Route::resource("cubicules", "CubiculesController");

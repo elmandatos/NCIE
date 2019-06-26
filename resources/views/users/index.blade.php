@@ -8,13 +8,15 @@
 <div class="container">
     {{-- SEARCH BAR --}}
     <div class="row center">
-        <form action="">
+        <form action="{{route("searchUser")}}" method="get"">
+            {!!csrf_field()!!}
             <div class="input-field col s10 l12">
                 <i class="material-icons tinny prefix">search</i>
-                <input type="text" id="buscar" class="validate">
+                <input type="text" id="buscar" class="validate" name="search">
                 <label for="buscar">Buscar</label>
             </div>
         </form>
+        <a href="{{ route("sendAllQR") }}" class="btn">Enviar QR a todos</a>
     </div>
     {{-- END SEARCH BAR --}}
 
@@ -44,8 +46,8 @@
                         <a class="btn-floating halfway-fab waves-effect waves-light amber" href="{{ route("users.edit",$user["id"]) }}">
                             <i class="tiny material-icons">edit</i>
                         </a>
-                        <a style="right: -20px;" class="btn-floating halfway-fab waves-effect waves-light blue">
-                            <i class="fas fa-qrcode "></i>
+                        <a style="right: -15px;" class="btn-floating halfway-fab waves-effect waves-light blue" href="{{ route("createAndSendQR",$user["id"]) }}">
+                        <i class="fas fa-qrcode "></i>
                         </a>
                         <a style="right: +68px;" class="btn-floating halfway-fab waves-effect waves-light red" href="{{ route("createByUser",$user["id"]) }}">
                             <i class="fas fa-cart-plus "></i>
@@ -54,7 +56,7 @@
 
                                                 {{-- DELETE BUTTON --}}
                         <div>
-                            {{ Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']) }}
+                            {{ Form::open(['route' => ['users.destroy', $user["id"]], 'method' => 'delete']) }}
                             <button style="right: -15px;top:-15px;" class="btn-floating halfway-fab waves-effect waves-light red">
                                 <i class="material-icons">delete</i>
                             </button>

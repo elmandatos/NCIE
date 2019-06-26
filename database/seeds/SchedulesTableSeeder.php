@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ScheduleTableSeeder extends Seeder
+class SchedulesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class ScheduleTableSeeder extends Seeder
         $hora_inicio = 9;
         $hora_fin = 10;
         do{
-            DB::table('schedule')->insert([
+            DB::table('schedules')->insert([
             'hora_inicio' => $hora_inicio.":00",
             'hora_fin' => $hora_fin.":00",
             ]);

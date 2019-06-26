@@ -25,3 +25,9 @@ Route::get('search', 'WarehouseController@search');
 
 // ROUTE BOOKING ARTICLES
 Route::post('booking_articles', 'BookingArticlesController@createByUserApi');
+
+// RUTAS CUBICULOS
+Route::get("booking_cubicules","BookingCubiculesController@indexAPI");
+Route::get("booking_cubicules","BookingCubiculesController@createAPI");
+Route::post("booking_cubicules","BookingCubiculesController@storeAPI");
+Route::post("booking_cubicules","BookingCubiculesController@destroyAPI");

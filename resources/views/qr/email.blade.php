@@ -1,0 +1,1 @@
+<h1>QR para acceder al nodo</h1>

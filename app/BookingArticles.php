@@ -13,6 +13,6 @@ class BookingArticles extends Model
 
     public function article()
     {
-        return $this->beogsTo(Warehouse::class);
+        return $this->belogsTo(Warehouse::class);
     }
 }
