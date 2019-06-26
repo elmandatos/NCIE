@@ -97,11 +97,10 @@ class BookingArticlesController extends Controller
             return redirect()->back()->withInput();
         }
 
-        //dd($request->all());
-        //dd($request->id);
-        for($i=0; $i<sizeof($request->id); $i++){
+        
+        for($i=0; $i<count($request->id); $i++){
             $booking = new BookingArticles;
-            $booking->user_id = $request->user_id[$i];
+            $booking->user_id = $request->user_id;
             $booking->article_id = $request->id[$i];
             $booking->cantidad = $request->cantidad[$i];
             $booking->estado = "PRESTADO";
@@ -112,8 +111,16 @@ class BookingArticlesController extends Controller
             $article->save();
         }
 
-        $booking = BookingArticles::where('estado', 'RESERVADO')->orWhere('estado', 'PRESTADO')->first();
-        return view('booking_articles.index', compact('booking') );
+        $booking = BookingArticles::where('estado', 'RESERVADO')->orWhere('estado', 'PRESTADO')->distinct()->get(['user_id']);
+        $users_id=array();
+
+        foreach($booking as $user){ 
+            array_push($users_id, $user['user_id']);
+        }
+        $users = User::whereIn('id', $users_id)->get();
+
+
+        return view('booking_articles.index', compact('users') );
 
     }
 
@@ -134,9 +141,29 @@ class BookingArticlesController extends Controller
      * @param  \App\BookingArticles  $bookingArticles
      * @return \Illuminate\Http\Response
      */
-    public function edit(BookingArticles $bookingArticles)
+    public function edit($id)
     {
-        //
+        $booking = BookingArticles::where('user_id', $id)->where(function($query){
+            $query
+            ->where('estado', 'RESERVADO')
+            ->orWhere('estado', 'PRESTADO');
+        })->get();
+
+        $articles_id=array();
+
+        foreach($booking as $bookings){ 
+            array_push($articles_id, $bookings['article_id']);
+        }
+
+        $articles = array();
+        foreach($articles_id as $article_id) {
+            $auxnombre = Warehouse::where('id', $article_id)->get()->first();
+            array_push($articles, $auxnombre);
+        }
+
+        $user_id = $id;
+      
+        return view('booking_articles.edit', compact('booking', 'articles', 'user_id' ) );
     }
 
     /**
@@ -146,7 +173,43 @@ class BookingArticlesController extends Controller
      * @param  \App\BookingArticles  $bookingArticles
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BookingArticles $bookingArticles)
+    public function update(Request $request, BookingArticles $bookingArticles, $id)
+    {
+        $book = BookingArticles::where('id', $id)->get()->first();
+        $book->estado = "DEVUELTO";
+        $book->save();
+
+        $article = Warehouse::where('id', $book->article_id)->get()->first();
+        $cantidadDisponible = $book->cantidad + $article->cantidad;
+        $article->cantidad = $cantidadDisponible;
+        $article->save();
+
+
+        $booking = BookingArticles::where('user_id', $book->user_id)->where(function($query){
+            $query
+            ->where('estado', 'RESERVADO')
+            ->orWhere('estado', 'PRESTADO');
+        })->get();
+
+        $articles_id=array();
+
+        foreach($booking as $bookings){ 
+            array_push($articles_id, $bookings['article_id']);
+        }
+
+        $articles = array();
+        foreach($articles_id as $article_id) {
+            $auxnombre = Warehouse::where('id', $article_id)->get()->first();
+            array_push($articles, $auxnombre);
+        }
+
+        $user_id = $book->user_id;       
+      
+        return view('booking_articles.edit', compact('booking', 'articles', 'user_id' ) );
+
+    }
+
+    public function updateAll($id)
     {
         //
     }

@@ -40,6 +40,7 @@ Route::resource("lendings", "LendingsController");
 // Booking Articles routes
 Route::resource("booking_articles", "BookingArticlesController");
 Route::get("/booking_articles/create/{id}", "BookingArticlesController@createByUser")->name('createByUser');
+Route::get("/booking_articles/devolver/{id}", "BookingArticlesController@updateAll")->name('updateAll');
 
 
 // Cubicules
