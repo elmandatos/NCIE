@@ -90,22 +90,12 @@ class QRController extends Controller
         QrCode::format('png')->size(399)->generate($id, '../public/img/qr/qrcode_id.png');
     }
 
-    public function sendQR($user){
+        public function sendQR($user){
         if(!$this->is_valid_email($user->email)){
             if(file_exists("../public/img/users/Email-erroneos.txt"))
                 unlink('../public/img/users/Email-erroneos.txt');
             $this->emailErrorFile($user);
-            $attachment_location = "../public/img/users/Email-erroneos.txt";
-            if (file_exists($attachment_location)) {
-                header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
-                header("Cache-Control: public"); // needed for internet explorer
-                header("Content-Type: application/txt");
-                header("Content-Transfer-Encoding: Binary");
-                header("Content-Length:".filesize($attachment_location));
-                header("Content-Disposition: attachment; filename=Email-erroneos.txt");
-                readfile($attachment_location);
-                exit;
-            }
+            $this->downloadErrorEmailFile();
         }
         else{
             Mail::send("qr.email",[],
@@ -126,18 +116,20 @@ class QRController extends Controller
 
     public function sendAllQR(){
         if(file_exists("../public/img/users/Email-erroneos.txt"))
-            unlink('../public/img/users/Email-erroneos.txt');
+        unlink('../public/img/users/Email-erroneos.txt');
         $users = User::all();
         foreach ($users as $user) {
             if($user["nombres"] == "ADMIN")
-                continue;
+            continue;
             $this->createQR($user["id"]);
             if(!$this->is_valid_email($user->email)){
-                
+                $this->emailErrorFile($user);
             }
             else
-                $this->sendQR($user);
+            $this->sendQR($user);
         }
+        if(file_exists("../public/img/users/Email-erroneos.txt"))
+            $this->downloadErrorEmailFile();
         return back();
     }
 
@@ -150,23 +142,28 @@ class QRController extends Controller
      * @return   boolean
      *
      */
-    public function is_valid_email($str)
+    public function is_valid_email($email)
     {
-    $result = (false !== filter_var($str, FILTER_VALIDATE_EMAIL));
-    
-    if ($result)
-    {
-        list($user, $domain) = split('@', $str);
-        
-        $result = checkdnsrr($domain, 'MX');
-    }
-    
-    return $result;
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
     public function emailErrorFile($user){
-            $file = fopen("../public/img/users/Email-erroneos.txt", "w");
+            $file = fopen("../public/img/users/Email-erroneos.txt", "a");
             fwrite($file, "$user->nombres $user->apellidos : [$user->email]" . PHP_EOL);
             fclose($file);
+    }
+
+    public function downloadErrorEmailFile(){
+        $attachment_location = "../public/img/users/Email-erroneos.txt";
+        if (file_exists($attachment_location)) {
+            header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
+            header("Cache-Control: public"); // needed for internet explorer
+            header("Content-Type: application/txt");
+            header("Content-Transfer-Encoding: Binary");
+            header("Content-Length:".filesize($attachment_location));
+            header("Content-Disposition: attachment; filename=Email-erroneos.txt");
+            readfile($attachment_location);
+            exit;
+        }
     }
 }

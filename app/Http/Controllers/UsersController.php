@@ -159,4 +159,9 @@ class UsersController extends Controller
         return $validatedData;
     }
 
+     public  function getFotoURL($id){
+        $user = User::findOrFail($id);
+        return $user->foto;
+     }
+
 }
