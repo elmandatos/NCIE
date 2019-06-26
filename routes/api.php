@@ -20,3 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('login', 'LoginController@login');
 
 Route::get('articles','WarehouseController@indexApi');
+
+// RUTAS CUBICULOS
+Route::get("booking_cubicules","BookingCubiculesController@indexAPI");
+Route::get("booking_cubicules","BookingCubiculesController@createAPI");
+Route::post("booking_cubicules","BookingCubiculesController@storeAPI");
+Route::post("booking_cubicules","BookingCubiculesController@destroyAPI");
