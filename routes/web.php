@@ -12,13 +12,14 @@
 */
 
 // Views Routes
-Route::view('/', 'test');
+Route::view('/', 'qr.index');
 // QR routes
 Route::resource("qr", "QRController");
 Route::get("/createQR/{id}","QRController@createAndSendQR")->name("createAndSendQR");
 Route::get("/sendAllQR","QRController@sendAllQR")->name("sendAllQR");
 // Users routes
 Route::resource("users", "UsersController");
+Route::get("/getFotoURL/{id}", "UsersController@getFotoURL");
 Route::get("/search","UsersController@search")->name("searchUser");
 
 //Hours Routes

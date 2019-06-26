@@ -283,7 +283,18 @@ class BookingCubiculesController extends Controller
     {
         //
     }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        BookingCubicules::destroy($id);
+        return redirect()->route("booking_cubicules.index"); 
 
+    }
     /**
      * Remove the specified resource from storage.
      *

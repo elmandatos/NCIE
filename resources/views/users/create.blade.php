@@ -133,7 +133,7 @@
             {{-- CONTRASEÑA --}}
             </div>
             <div class="col s12 m12 l6">
-                <div id="password-section" style = "display: none">
+                <div id="password-section" >
                     <div class="input-field col s12 l6 ">
                         <input type="password" id="password" name="password" class="validate">
                         <label for="password">Contraseña</label><br>
@@ -176,29 +176,29 @@
         }
     });
 
-    //MOSTRAR LOS INPUTS DE PASSWORDS DEPÉNDIENDO DEL TIPO DE USUARIO
-    let passwordSection = document.querySelector("#password-section");
-    let radioBtnUserType = document.querySelectorAll("input[name='tipo_de_usuario']");
-    let inputsPasswordSection = document.querySelectorAll("#password-section input[type='password']");
-    radioBtnUserType.forEach(element => {
+    // //MOSTRAR LOS INPUTS DE PASSWORDS DEPÉNDIENDO DEL TIPO DE USUARIO
+    // let passwordSection = document.querySelector("#password-section");
+    // let radioBtnUserType = document.querySelectorAll("input[name='tipo_de_usuario']");
+    // let inputsPasswordSection = document.querySelectorAll("#password-section input[type='password']");
+    // radioBtnUserType.forEach(element => {
 
-        if(element.checked == true && element.value != "usuario") 
-        passwordSection.style.display = "block";
-        element.addEventListener("click", e => {
-            if(e.target.value == "usuario" || e.target.value == null){
-                inputsPasswordSection.forEach(input => {
-                    input.required = false;
-                });
-                passwordSection.style.display = "none";
-            }
-            else{
-                inputsPasswordSection.forEach(input => {
-                    input.required = true;
-                });
-                passwordSection.style.display = "block";
-            }
-        });
-    });
+    //     if(element.checked == true && element.value != "usuario") 
+    //     passwordSection.style.display = "block";
+    //     element.addEventListener("click", e => {
+    //         if(e.target.value == "usuario" || e.target.value == null){
+    //             inputsPasswordSection.forEach(input => {
+    //                 input.required = false;
+    //             });
+    //             passwordSection.style.display = "none";
+    //         }
+    //         else{
+    //             inputsPasswordSection.forEach(input => {
+    //                 input.required = true;
+    //             });
+    //             passwordSection.style.display = "block";
+    //         }
+    //     });
+    // });
 
 </script>
 <script src="{{secure_asset('js/capturePicture.js') }}"></script>
