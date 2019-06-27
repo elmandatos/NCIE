@@ -16,3 +16,18 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('login', 'LoginController@login');
+
+Route::get('articles','WarehouseController@indexApi');
+Route::get('autocomplete', 'WarehouseController@searchArticulo');
+Route::get('search', 'WarehouseController@search');
+
+// ROUTE BOOKING ARTICLES
+Route::post('booking_articles', 'BookingArticlesController@createByUserApi');
+
+// RUTAS CUBICULOS
+Route::get("booking_cubiculesAPI","BookingCubiculesController@indexAPI");
+Route::get("booking_cubiculesAPI/create","BookingCubiculesController@createAPI");
+Route::post("booking_cubiculesAPI","BookingCubiculesController@storeAPI");
+Route::post("booking_cubiculesAPI/{id}","BookingCubiculesController@destroyAPI");
