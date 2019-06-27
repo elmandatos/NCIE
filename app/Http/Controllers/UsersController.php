@@ -97,7 +97,7 @@ class UsersController extends Controller
         $data = $this->validateStoreInputs($request->all());
         //GENERAMOS LA FOTO DEL USUARIO Y OBTENEMOS EL NOMBRE DEL ARCHIVO
         $data["foto"] = $this->createPicture($data["email"],$data["foto"],$data["sexo"]);
-
+        // dd($data["foto"]);
         $user -> update($data);
         return redirect()->route("users.index"); 
     }
@@ -116,7 +116,8 @@ class UsersController extends Controller
 
     
     private function createPicture($email, $foto, $sexo){
-        $pathFile = "";
+        if(file_exists("../public/img/users/$foto"))
+            return $foto;
         define('UPLOAD_DIR', '../public/img/users/'); //definimos la ruta donde guardaremos la foto
         //SI NO SE HA TOMADO FOTO SE ELIGE LA FOTO POR DEFECTO
         if(!$foto){
@@ -125,12 +126,10 @@ class UsersController extends Controller
             if($sexo == "hombre")
                 $fileName = "user-man.png";
         }
-        elseif($foto == $email ."png"){
-
+        elseif($foto == $email."png"){
             $fileName = $email . "png";
         }
         else{
-
             $picture = base64_decode($foto);   //Decodificamos la foto
             $fileName = $email . '.png'; //Generamos la ruta completa del archivo
             file_put_contents(UPLOAD_DIR .$fileName, $picture); //Creamos la foto en el servidor
