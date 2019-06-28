@@ -92,13 +92,17 @@ class UsersController extends Controller
      */
     public function update(UsersRequest $request, $id)
     {
+        // dd($request->all()["foto"]);
         $user = User::findOrFail($id);
-     
+      
         $data = $this->validateStoreInputs($request->all());
-        //GENERAMOS LA FOTO DEL USUARIO Y OBTENEMOS EL NOMBRE DEL ARCHIVO
-        $data["foto"] = $this->createPicture($data["email"],$data["foto"],$data["sexo"]);
-        // dd($data["foto"]);
+        //ACTUALIZAMOS LA FOTO DEL USUARIO Y OBTENEMOS EL NOMBRE DEL ARCHIVO
+        if($data["foto"] == null)
+            $data["foto"]  = $this->changeDefaultPicture($data["sexo"], $user["foto"]);
+        else
+            $data["foto"] = $this->updatePicture($data["foto"], $user["foto"],$user["email"], $data["email"]);
         $user -> update($data);
+        // dd($data["foto"]);
         return redirect()->route("users.index"); 
     }
     
@@ -114,29 +118,54 @@ class UsersController extends Controller
         return redirect()->route("users.index"); 
     }
 
-    
-    private function createPicture($email, $foto, $sexo){
-        if(file_exists("../public/img/users/$foto"))
-            return $foto;
-        define('UPLOAD_DIR', '../public/img/users/'); //definimos la ruta donde guardaremos la foto
-        //SI NO SE HA TOMADO FOTO SE ELIGE LA FOTO POR DEFECTO
-        if(!$foto){
-            if($sexo == "mujer")
-                $fileName = "user-woman.png";
-            if($sexo == "hombre")
-                $fileName = "user-man.png";
+    private function updatePicture($dataFoto, $fileFoto, $email, $dataEmail){
+        // dd($dataFoto, $fileFoto, $email, $dataEmail);
+        $rutaImages ="../public/img/users/";
+        $oldName = $rutaImages."$email.png";
+        $newName = $rutaImages."$dataEmail.png";
+
+        if($dataFoto == null && ($dataEmail != $email)){
+            // renombrar foto del usuario
+            rename($oldName, $newName);
+            return "$dataEmail.png";
         }
-        elseif($foto == $email."png"){
-            $fileName = $email . "png";
+        elseif($dataFoto != null && ($dataEmail != $email)){
+            rename($oldName, $newName);
+            return $this->createPicture($dataEmail, $dataFoto, "hombre");
+        }
+        elseif($dataFoto != null && ($dataEmail == $email)){
+            return $this->createPicture($dataEmail, $dataFoto, "hombre");
         }
         else{
+            return $fileFoto;
+        }
+    }
+
+    private function createPicture($email, $foto, $sexo){
+        if($foto == null){
+            if($sexo == "mujer")
+                return $fileName = "user-woman.png";
+            if($sexo == "hombre")
+                return $fileName = "user-man.png";         
+        }
+        else{
+            define('UPLOAD_DIR', '../public/img/users/'); //definimos la ruta donde guardaremos la foto
             $picture = base64_decode($foto);   //Decodificamos la foto
             $fileName = $email . '.png'; //Generamos la ruta completa del archivo
             file_put_contents(UPLOAD_DIR .$fileName, $picture); //Creamos la foto en el servidor
+            return $fileName;
         }
-         return $fileName;
     }
 
+        private function changeDefaultPicture($sexo, $fotoName){
+            // se comprueba que la foto actual sea alguna de las de defecto
+            if($fotoName == "user-woman.png" || $fotoName == "user-man.png"){
+                if($sexo == "mujer")
+                    return "user-woman.png";
+                if($sexo == "hombre")
+                    return "user-man.png";       
+            }
+        }
     private function validateStoreInputs($inputs){
         // CONSISTENCIA DE DATOS EN LA BD
         $data = $inputs;

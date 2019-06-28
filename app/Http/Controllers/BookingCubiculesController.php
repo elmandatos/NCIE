@@ -69,10 +69,11 @@ class BookingCubiculesController extends Controller
         ];
        
         //OBTENER LISTA DE CUBICULOS OCUPADOS
-        $registrosCubiculos = DB::table("booking_cubicules")
+      $registrosCubiculos = DB::table("booking_cubicules")
         ->join("cubicules", "booking_cubicules.id_cubicules", "=", "cubicules.id")
         ->select("cubicules.id as cubiculo")
         ->groupBy("cubiculo")
+        ->where("booking_cubicules.fecha","=",Carbon::now()->toDateString())
         ->get();
         $registrosCubiculos = json_decode(json_encode($registrosCubiculos),true);
 
@@ -149,6 +150,7 @@ class BookingCubiculesController extends Controller
         ->join("cubicules", "booking_cubicules.id_cubicules", "=", "cubicules.id")
         ->select("cubicules.id as cubiculo")
         ->groupBy("cubiculo")
+        ->where("booking_cubicules.fecha","=",Carbon::now()->toDateString())
         ->get();
         $registrosCubiculos = json_decode(json_encode($registrosCubiculos),true);
 

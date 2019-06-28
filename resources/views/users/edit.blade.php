@@ -23,7 +23,7 @@
             {{method_field("PUT")}}
             {!!csrf_field()!!}
             {{-- INPUT OCULTO PARA GENERAR FOTO DE USUARIO --}}
-            <input type="text" id="foto" name="foto" value="{{ $user["foto"] }}" style="display: none;">
+            <input type="text" id="foto" name="foto" value="" style="display: none;">
             
             <div class="col s12 m12 l12">
                 {{-- NOMBRES --}}
