@@ -5,21 +5,24 @@ namespace App\Http\Controllers;
 use DB;
 use Carbon\Carbon;
 use Illuminate\ Http\Request;
+use App\User;
 
 class HoursController extends Controller
 {
     public function get_in($id){
         $lastGetIn = $this->get_last_get_in($id); //Obtiene la ultima entrada del usuario
-        if($lastGetIn != false){
-            $currentDate = Carbon::now()->toDateString(); 
-            $store_get_id = $this->validate_get_in($lastGetIn,$currentDate);
-            if($store_get_id){
-                  DB::table("hours")->insert([
-                      "user_id" => $id,
-                      "fecha" => Carbon::now()->toDateString(),
-                      "hora_entrada" => Carbon::now()->toTimeString(),
-                  ]);
-            }
+        // dd($lastGetIn);
+        // if($lastGetIn != false){
+
+        // }
+        $currentDate = Carbon::now()->toDateString(); 
+        $store_get_id = $this->validate_get_in($lastGetIn,$currentDate);
+        if($store_get_id){
+                DB::table("hours")->insert([
+                    "user_id" => $id,
+                    "fecha" => Carbon::now()->toDateString(),
+                    "hora_entrada" => Carbon::now()->toTimeString(),
+                ]);
         }
         return redirect()->route("users.index");
     }
@@ -99,5 +102,52 @@ class HoursController extends Controller
             $minutos = "0".$minutos;
         $tiempoTotal = $horas . ':' . $minutos;
         return $tiempoTotal;
+    }
+
+    private function horasEntreFechas($fechaInicio,$fechaFin, $userId){
+        $user = DB::table("users")->where("id", $userId)->first();
+        $tiempoTotal = DB::table("hours")
+        ->select(DB::raw("SUM(TIME_TO_SEC(TIMEDIFF(hora_salida,hora_entrada))) as tiempo"))
+        ->where("user_id",$userId)
+        ->where("hora_salida","<>","NULL")
+        ->whereBetween("fecha",[$fechaInicio,$fechaFin])
+        ->get();
+
+        
+        $tiempoTotal = intval($tiempoTotal[0]->tiempo);
+        
+        $horas = floor($tiempoTotal / 3600);
+        $minutos = floor(($tiempoTotal - ($horas * 3600)) / 60);
+        $segundos = $tiempoTotal - ($horas * 3600) - ($minutos * 60);
+        if($horas<10)
+        $horas = "0".$horas;
+        if($minutos<10)
+        $minutos = "0".$minutos;
+        $tiempoTotal = $horas . ':' . $minutos;
+        // dd($tiempoTotal);
+        return $tiempoTotal;
+    }
+    public function get_user_hours(Request $request){
+        $userHours = DB::table("hours")
+        ->where("user_id",$request->id)
+        ->whereBetween("fecha",[$request->fecha_inicio,$request->fecha_fin])
+        ->orderBy("hours_id")
+        ->get(["*"]);
+
+        $horasTotales = $this->horasEntreFechas($request->fecha_inicio,$request->fecha_fin,$request->id);
+        return view("hours.index")->with(["userHours"=>$userHours,"horasTotales" => $horasTotales, "foto" => $request->foto, "nombre" => $request->nombre]);
+    }
+    public function get_all_user_hours(Request $request){
+        $userHours = DB::table("hours")
+        ->where("user_id",$request->id)
+        ->where("fecha",[$request->fecha_inicio,$request->fecha_fin])
+        ->orderBy("hours_id")
+        ->get();
+        
+    }
+
+    public function show($id){
+        $user = User::findOrFail($id);
+        return view("hours.show")->with(["id"=>$id, "user"=>$user]);
     }
 }

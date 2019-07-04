@@ -205,7 +205,7 @@ class BookingArticlesController extends Controller
 
         $user_id = $book->user_id;       
       
-        return view('booking_articles.edit', compact('booking', 'articles', 'user_id' ) );
+        return back();
 
     }
 

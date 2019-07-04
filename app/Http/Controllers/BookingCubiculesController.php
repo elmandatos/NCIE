@@ -128,78 +128,42 @@ class BookingCubiculesController extends Controller
 
     public function createAPI()
     {
-        $horarios = DB::table("schedules")
-        ->select("id","hora_inicio","hora_fin")
-        ->get();
-        
-        $horarios = json_decode(json_encode($horarios),true);
-        
-        $horariosGlobales = [1,2,3,4,5,6,7,8,9,10];
-        $horasPorCubiculo = [
-            3 =>[],
-            4 =>[],
-            5 =>[],
-            6 =>[],
-            7 =>[],
-            9 =>[],
-            10 =>[],
-        ];
-       
-        //OBTENER LISTA DE CUBICULOS OCUPADOS
-        $registrosCubiculos = DB::table("booking_cubicules")
-        ->join("cubicules", "booking_cubicules.id_cubicules", "=", "cubicules.id")
-        ->select("cubicules.id as cubiculo")
-        ->groupBy("cubiculo")
-        ->where("booking_cubicules.fecha","=",Carbon::now()->toDateString())
-        ->get();
-        $registrosCubiculos = json_decode(json_encode($registrosCubiculos),true);
+        $horarios = collect([]);
+        $horariosFormated = collect([]);
+        $horariosPorCubiculosDisponibles = DB::table("cubicules")
+        ->crossJoin("schedules")
+        ->where("cubicules.reservado",0)
+        ->orderBy("cubicules.id")
+        ->orderBy("schedules.id")
+        ->get(["cubicules.id as cubiculo","schedules.id as horario", "schedules.hora_inicio", "schedules.hora_fin"]);
 
-        if(count($registrosCubiculos)  != 0){
-            //OBTENER LISTA DE HORAS OCUPADA DE UN CUBICULO
-            $registroHoras;
-            foreach ($registrosCubiculos as $cubiculo) {
-                $horas = DB::table("booking_cubicules")
-                ->join("cubicules", "booking_cubicules.id_cubicules", "=", "cubicules.id")
-                ->join("schedules", "booking_cubicules.id_schedules", "=", "schedules.id")
-                ->select("schedules.id as horario")
-                ->where("cubicules.id","=",$cubiculo["cubiculo"])
-                ->get();
-                $horas = json_decode(json_encode($horas),true);
-                $registroHoras[$cubiculo['cubiculo']] = $horas;
+        $horariosPorCubiculosOcupados = DB::table("booking_cubicules")
+        ->where("fecha","=",Carbon::now()->toDateString())
+        ->get(["id_schedules as horario", "id_cubicules as cubiculo","id_user as user","fecha"]);
+        // dd($horariosPorCubiculosOcupados);
+        if(count($horariosPorCubiculosOcupados) == 0){
+            $grouped = $horariosPorCubiculosDisponibles->groupBy('cubiculo');
+            foreach ($grouped as $key => $value) {
+                $horariosFormated->push(["cubiculo" => $key,$key => $value]);
             }
-    
-    
-            //LISTA DE HORARIOS OCUPADOS ASOCIADAS A SU CUBICULO
-            $horasPorCubiculoDisponibles;
-            $registrosCubiculos = json_decode(json_encode($registrosCubiculos),true);
-            foreach ($registroHoras as $cubiculo => $horas) {
-                foreach ($horas as $key => $value) {
-                    $horasPorCubiculo[$cubiculo][] = $value["horario"]; 
+            return response()->json($horariosFormated, 201);
+        }
+        $apartado = false;
+        foreach ($horariosPorCubiculosDisponibles as $disponible) {
+            foreach ($horariosPorCubiculosOcupados as $ocupado) {
+                if($disponible->cubiculo == $ocupado->cubiculo && $disponible->horario == $ocupado->horario){
+                    $apartado = true;
                 }
             }
-    
-            // LISTA DE HORARIOS DISPONIBLES
-            foreach ($horasPorCubiculo as $cubiculo => $horas) {
-                $horasPorCubiculoDisponibles[$cubiculo] = array_diff($horariosGlobales,$horas);
-            }
-            foreach ($horasPorCubiculoDisponibles as $cubiculo => $horas) {
-                foreach ($horas as $index => $idHorario) {
-                    $horasPorCubiculoDisponibles[$cubiculo][$index] = $horarios[$index];
-                }            
-            }        
+            if(!$apartado)
+                $horarios->push($disponible);
+            $apartado = false;
         }
-        else{        
-            foreach ($horasPorCubiculo as $cubiculo => $horas) {
-                $horasPorCubiculoDisponibles[$cubiculo] = array_diff($horariosGlobales,$horas);
-            }
-            
-            foreach ($horasPorCubiculoDisponibles as $cubiculo => $horas) {
-                foreach ($horas as $index => $idHorario) {
-                    $horasPorCubiculoDisponibles[$cubiculo][$index] = $horarios[$index];
-                }            
-            }
+        $grouped = $horarios->groupBy('cubiculo');
+        foreach ($grouped as $key => $value) {
+            $horariosFormated->push(["cubiculo" => $key,$key => $value]);
         }
-        return response()->json( $horasPorCubiculoDisponibles, 200);
+        return response()->json($horariosFormated, 201);
     }
 
     /**
@@ -230,26 +194,51 @@ class BookingCubiculesController extends Controller
         return redirect()->route("booking_cubicules.index");
     }
 
-        public function storeAPI(BookingCubiculesRequest $request)
+   public function storeAPI(Request $request)
     {
+        $reservado = true;
         $prestamos = $request->all();
         $datos;
         for ($i=0; $i < count($prestamos["id_schedules"]); $i++) {
+
             $datos["id_user"] = $prestamos["id_user"]; 
             $datos["id_cubicules"] = $prestamos["id_cubicules"]; 
             $datos["id_schedules"] = $prestamos["id_schedules"][$i]; 
             $datos["fecha"] = Carbon::now()->toDateString(); 
 
+            $repetidos = DB::table("booking_cubicules")
+            ->where("id_cubicules","=",$datos["id_cubicules"])
+            ->where("id_schedules","=",$datos["id_schedules"])
+            ->where("fecha","=",Carbon::now()->toDateString())
+            ->get(["*"]);
+
+            if(count($repetidos)>0){
+                $reservado = false;
+                break;
+            }
+            
             $validacionReservacion = DB::table("booking_cubicules")
-            ->select("id_user")
+            ->select("*")
             ->where("id_user","=",$datos["id_user"])
             ->where("fecha","=",Carbon::now()->toDateString())
             ->get();
             $validacionReservacion = json_decode(json_encode($validacionReservacion),true);
-            if(count($validacionReservacion)<2)
+            if(count($validacionReservacion)<2) 
                 BookingCubicules::create($datos);
         }
-        return response()->json(["message" => "Reservación completada"], 201);
+        if($reservado){
+            $resp = ["message"=>"Reservación completada"];
+            $resp = json_encode($resp);
+            return response($resp, 200)
+            ->header('Content-Type', 'application/json');
+        }
+        else{
+            $error = ["message"=>"Reservación fallida"];
+            $error = json_encode($error);
+            return response($error, 401)
+            ->header('Content-Type', 'application/json');
+        }
+
     }
 
     /**

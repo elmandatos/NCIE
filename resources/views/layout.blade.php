@@ -82,7 +82,63 @@
         M.AutoInit();
         $(document).ready(function(){
             $('.sidenav').sidenav();
-    });
+            $('.datepicker').datepicker({
+                disableWeekends: true,
+                format: "yyyy-mm-dd",
+                i18n:{
+                    cancel: "Cancelar",
+                    firstDay:0,
+                    months:[
+                        'Enero',
+                        'Febrero',
+                        'Marzo',
+                        'Abril',
+                        'Mayo',
+                        'Junio',
+                        'Julio',
+                        'Agosto',
+                        'Septiembre',
+                        'Octubre',
+                        'Noviembre',
+                        'Diciembre'
+                    ],
+                    monthsShort:[
+                        'Ene',
+                        'Feb',
+                        'Mar',
+                        'Abr',
+                        'May',
+                        'Jun',
+                        'Jul',
+                        'Ago',
+                        'Sep',
+                        'Oct',
+                        'Nov',
+                        'Dic'
+                    ],
+                    weekdays:[
+                        'Domingo',
+                        'Lunes',
+                        'Martes',
+                        'Miercoles',
+                        'Jueves',
+                        'Viernes',
+                        'Sábado',
+                    ],
+                    weekdaysShort:[
+                        'Dom',
+                        'Lun',
+                        'Mar',
+                        'Mier',
+                        'Jue',
+                        'Vie',
+                        'Sáb',
+                    ],
+                    weekdaysAbbrev: ['D','L','M','M','J','V','S']
+                }
+            });
+        });
+
     </script>
     {{-- END SCRIPTS --}}
 </body>

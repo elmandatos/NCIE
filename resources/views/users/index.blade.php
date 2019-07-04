@@ -46,6 +46,10 @@
                         <a class="btn-floating halfway-fab waves-effect waves-light amber" href="{{ route("users.edit",$user["id"]) }}">
                             <i class="tiny material-icons">edit</i>
                         </a>
+                        <a style="right: 110px;" class="btn-floating halfway-fab waves-effect waves-light orange darken-2" href="{{ route("horasEntreFechas",$user["id"]) }}">
+                            <i class="tiny material-icons">insert_chart</i>
+                        </a>
+                        
                         <a style="right: -15px;" class="btn-floating halfway-fab waves-effect waves-light blue" href="{{ route("createAndSendQR",$user["id"]) }}">
                         <i class="fas fa-qrcode "></i>
                         </a>

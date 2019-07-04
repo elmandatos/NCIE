@@ -25,6 +25,8 @@ Route::get("/search","UsersController@search")->name("searchUser");
 //Hours Routes
 Route::get('/user/{id}/get_in',"HoursController@get_in")->name("entrada");
 Route::get('/user/{id}/get_out',"HoursController@get_out")->name("salida");
+Route::get("/user/{id}/get_user_hours","HoursController@show")->name("horasEntreFechas");
+Route::post("/user/{id}/get_user_hours","HoursController@get_user_hours")->name("mostrarHoras");
 
 // Import Excel Routes
 Route::get('/import', 'UserData@index')->name("usersData.index");
@@ -54,4 +56,10 @@ Route::get('autocomplete', 'WarehouseController@searchArticulo');
 Route::post('search', 'WarehouseController@search');
 
 
+
+// RUTAS CUBICULOS
+Route::get("booking_cubiculesAPI","BookingCubiculesController@indexAPI");
+Route::get("booking_cubiculesAPI/create","BookingCubiculesController@createAPI");
+Route::post("booking_cubiculesAPI/","BookingCubiculesController@storeAPI")->name("storeAPI");
+Route::post("booking_cubiculesAPI/{id}","BookingCubiculesController@destroyAPI");
 // Route::resource("cubicules", "CubiculesController");

@@ -87,19 +87,20 @@ class WarehouseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(WarehouseRequest $request, $id)
+public function update(WarehouseRequest $request, $id)
     {
         // BUSCAR AL USUARIO EN LA BASE DE DATOS POR ID Y OBTENER LA FOTO ACTUAL
         $articulo = Warehouse::findOrFail($id);
         $foto = $articulo->foto;
-        // COMPARAR FOTO EN BD CON FOTO EN REQUEST
-        if($foto != $request->foto){
+        // SI SE TOMÓ UNA FOTO - SE ACTUALIZA FOTO ACTUAL
+        if($request->foto != null){
             // SI LA FOTO NO ES IGUAL(HUBO CAMBIO), PREPARAR LA CONSULTA
             $articulo->fill($request->all());
             // CONVERTIR LOS METADATOS A UNA FOTO PNG Y GUARDARLOS EN LA CONSULTA
             $articulo->foto = $this->createPicture($articulo->id, $request->foto);
         }else {
             // SI ES IGUAL LA FOTO EN LA BD A LA FOTO EN LA REQUEST, PRERPARA CONSULTA Y GUARDAR EN BD
+            $request["foto"] = $foto;
             $articulo->fill($request->all());
         }
         $articulo->save();

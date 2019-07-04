@@ -65,7 +65,7 @@
                 <input type="submit" class="btn">
             </div>
             {{-- INPUT OCULTO PARA GENERAR FOTO DE USUARIO --}}
-            <input hidden   id="foto" name="foto" type="text" value="{{$articulo->foto}}">
+            <input hidden   id="foto" name="foto" type="text" value="">
         </form>
     </div>
 </div>
