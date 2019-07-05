@@ -132,10 +132,16 @@ class HoursController extends Controller
         ->where("user_id",$request->id)
         ->whereBetween("fecha",[$request->fecha_inicio,$request->fecha_fin])
         ->orderBy("hours_id")
-        ->get(["*"]);
-
+        ->get(["*",DB::raw("TIMEDIFF(hora_salida, hora_entrada) as horas_al_dia")]);
         $horasTotales = $this->horasEntreFechas($request->fecha_inicio,$request->fecha_fin,$request->id);
-        return view("hours.index")->with(["userHours"=>$userHours,"horasTotales" => $horasTotales, "foto" => $request->foto, "nombre" => $request->nombre]);
+        return view("hours.index")->with([
+            "userHours"=>$userHours,
+            "horasTotales" => $horasTotales,
+            "foto" => $request->foto,
+            "nombre" => $request->nombre,
+            "fechaInicio" => $request->fecha_inicio,
+            "fechaFinal" => $request->fecha_fin
+        ]);
     }
     public function get_all_user_hours(Request $request){
         $userHours = DB::table("hours")
