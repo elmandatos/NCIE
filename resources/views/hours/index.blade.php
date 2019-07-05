@@ -5,9 +5,9 @@
         <p class="center-align"><b>{{ $nombre }}</b></p>
     </div>
     <div class="row">
-            <img src="{{ $foto }}" alt="" class="col l4 offset-l4">
+            <img src="{{ $foto }}" alt="" class="col s12 m4 l4 offset-l4 offset-m4">
     </div>
-<table class="striped highlight responsive-table" id="reporte">
+<table class="striped highlight" id="reporte">
 
     <thead>
         <tr>
@@ -36,8 +36,8 @@
                 <td><td>
             </tr>
     </tbody>
-</table>
-<input type="su" class="btn" value="Generar Excel" onclick="tableToExcel('reporte','Reporte {{ $nombre }} periodo {{ $fechaInicio }} a {{ $fechaInicio }}')"></input>
+</table><br>
+<input type="submit" class="btn" value="Generar Excel" onclick="tableToExcel('reporte','Reporte {{ $nombre }} periodo {{ $fechaInicio }} a {{ $fechaInicio }}')"></input>
 {{-- <p><b>Horas totales: {{ $horasTotales }}</b></p> --}}
 </div>
 @endsection
