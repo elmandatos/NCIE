@@ -81,8 +81,11 @@
                                 <i class="material-icons small grey-text text-grey">phone</i>
                             </a>
                         </div>
+                       @if($hoursController->show_get_in_btn($user["id"]))
                         <a href="{{ route("entrada", $user["id"]) }}" class="btn">ENTRAR</a>
+                       @else
                         <a href="{{ route("salida", $user["id"]) }}" class="btn red">SALIR</a>
+                       @endif 
                     </div>
                 </div>
             </div>

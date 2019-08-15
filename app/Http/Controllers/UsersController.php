@@ -97,7 +97,7 @@ class UsersController extends Controller
       
         $data = $this->validateStoreInputs($request->all());
         //ACTUALIZAMOS LA FOTO DEL USUARIO Y OBTENEMOS EL NOMBRE DEL ARCHIVO
-        if($data["foto"] == null)
+        if($data["foto"] == null && ($user["foto"] == "user-man.png" || $user["foto"] == "woman-man.png"))
             $data["foto"]  = $this->changeDefaultPicture($data["sexo"], $user["foto"]);
         else
             $data["foto"] = $this->updatePicture($data["foto"], $user["foto"],$user["email"], $data["email"]);

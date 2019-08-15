@@ -76,7 +76,7 @@ class HoursController extends Controller
     }
 
     //SE UTILIZA EN LA VISTA INDEX PARA DETERMINAR SI MOSTRAR O NO, UN BOTON
-    public function show_get_in_btn($idUSer){
+    public function show_get_in_btn($idUser){
         $lastGetIn = $this->get_last_get_in($idUser);
         $currentDate = Carbon::now()->toDateString(); 
         $showBtn = $this->validate_get_in($lastGetIn, $currentDate);
